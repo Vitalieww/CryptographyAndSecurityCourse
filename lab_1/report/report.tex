@@ -1,0 +1,789 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[many]{tcolorbox}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+% --- Page Setup ---
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% --- Custom Colors ---
+\definecolor{primary}{RGB}{18, 52, 86}
+\definecolor{secondary}{RGB}{41, 128, 185}
+\definecolor{accent}{RGB}{231, 76, 60}
+\definecolor{codebg}{RGB}{247, 249, 250}
+\definecolor{codeframe}{RGB}{209, 213, 219}
+\definecolor{codegreen}{RGB}{39, 136, 60}
+\definecolor{codepurple}{RGB}{137, 89, 168}
+\definecolor{codegray}{RGB}{108, 117, 125}
+\definecolor{termbg}{RGB}{24, 24, 24}
+\definecolor{termfg}{RGB}{220, 220, 220}
+\definecolor{termgreen}{RGB}{80, 250, 123}
+\definecolor{termred}{RGB}{255, 85, 85}
+\definecolor{termyellow}{RGB}{241, 250, 140}
+\definecolor{termcyan}{RGB}{139, 233, 253}
+
+% --- Romanian Character Literate for Listings ---
+\lstset{
+    extendedchars=true,
+    literate=%
+        {ă}{{\u{a}}}1
+        {Ă}{{\u{A}}}1
+        {â}{{\^a}}1
+        {Â}{{\^A}}1
+        {î}{{\^\i}}1
+        {Î}{{\^I}}1
+        {ș}{{\c{s}}}1
+        {Ș}{{\c{S}}}1
+        {ț}{{\c{t}}}1
+        {Ț}{{\c{T}}}1
+        {ş}{{\c{s}}}1
+        {Ş}{{\c{S}}}1
+        {ţ}{{\c{t}}}1
+        {Ţ}{{\c{T}}}1
+}
+
+% --- Listings Setup ---
+\lstset{
+    language=[Sharp]C,
+    backgroundcolor=\color{codebg},
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{secondary}\bfseries,
+    stringstyle=\color{codegreen},
+    commentstyle=\color{codegray}\itshape,
+    numberstyle=\tiny\color{codegray},
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    rulecolor=\color{codeframe},
+    captionpos=b,
+    keepspaces=true
+}
+
+\tcbuselibrary{listings,skins}
+
+% --- Terminal Box Setup ---
+\newtcblisting{terminalwindow}[1][]{%
+    enhanced,
+    colback=termbg,
+    colframe=gray!40!black,
+    arc=3mm,
+    boxrule=1pt,
+    title={\textcolor{termred}{$\bullet$}\;\textcolor{termyellow}{$\bullet$}\;\textcolor{termgreen}{$\bullet$}\quad \textsf{\bfseries Console Terminal Session}},
+    fonttitle=\small\sffamily\bfseries,
+    coltitle=white,
+    attach boxed title to top left={yshift=-2mm, xshift=4mm},
+    boxed title style={colback=gray!25!black, arc=2mm, boxrule=0.5pt},
+    listing only,
+    listing options={
+        basicstyle=\small\ttfamily\color{termfg},
+        breaklines=true,
+        tabsize=4,
+        showspaces=false,
+        showstringspaces=false,
+        extendedchars=true,
+        literate=%
+            {ă}{{\u{a}}}1
+            {Ă}{{\u{A}}}1
+            {â}{{\^a}}1
+            {Â}{{\^A}}1
+            {î}{{\^\i}}1
+            {Î}{{\^I}}1
+            {ș}{{\c{s}}}1
+            {Ș}{{\c{S}}}1
+            {ț}{{\c{t}}}1
+            {Ț}{{\c{T}}}1
+            {ş}{{\c{s}}}1
+            {Ş}{{\c{S}}}1
+            {ţ}{{\c{t}}}1
+            {Ţ}{{\c{T}}}1
+    },
+    #1
+}
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    citecolor=secondary,
+    urlcolor=secondary
+}
+
+% --- Headers & Footers ---
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-3pt}
+\fancyhead[L]{\small\textsf{Laboratory Work No. 1 --- Cryptography \& Information Security}}
+\fancyhead[R]{\small\textsf{Vitalie Vasilean}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Macros ---
+\newcommand{\studentgroup}{FAF-231} % Adjust if needed
+
+\begin{document}
+
+% =========================================================================
+% TITLE PAGE
+% =========================================================================
+\begin{titlepage}
+    \centering
+    {\large \textbf{TECHNICAL UNIVERSITY OF MOLDOVA}}\\[0.2cm]
+    {\large Faculty of Computers, Informatics and Microelectronics}\\[0.2cm]
+    {\large Department of Software Engineering and Automatics}\\[4cm]
+
+    {\Large \textbf{LABORATORY WORK NO. 1}}\\[0.4cm]
+    {\LARGE \textbf{Classical Ciphers: Caesar Cipher and Caesar Cipher with Permutation for the Romanian Alphabet}}\\[0.4cm]
+    {\large Course: Cryptography and Information Security}\\[4cm]
+
+    \begin{minipage}{0.45\textwidth}
+        \flushleft
+        \textbf{Author:}\\
+        Vitalie \textsc{Vasilean}\\
+        Student of group \studentgroup
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \flushright
+        \textbf{Verified by:}\\
+        Department of ISA\\
+        Lecturer / Supervisor
+    \end{minipage}
+
+    \vfill
+    {\large Chișinău --- 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+% 1. INTRODUCTION AND OBJECTIVES
+% =========================================================================
+\section{Introduction and Laboratory Objectives}
+
+Classical cryptography represents the foundational basis upon which modern cryptosystems and mathematical cryptanalysis have been developed. Early symmetric encryption algorithms, predominantly substitution and transposition ciphers, were designed to secure sensitive communications through manual transformations of plaintext into unintelligible ciphertext.
+
+The primary objectives of this laboratory work are:
+\begin{enumerate}
+    \item \textbf{Understand the operation of the classical Caesar cipher} through rigorous mathematical formulation of modular arithmetic over finite alphabetic rings.
+    \item \textbf{Analyze the cryptographic weakness of small key spaces}, demonstrating why the standard Caesar cipher is vulnerable to exhaustive brute-force attacks and statistical frequency cryptanalysis.
+    \item \textbf{Implement the Caesar cipher over the extended Romanian alphabet} ($n = 31$ characters), strictly adhering to a predefined letter-to-index mapping without relying on ASCII/Unicode numeric offsets.
+    \item \textbf{Enhance cipher security using a keyword-based alphabet permutation}, observing how the key space dramatically increases from a small integer range to factorial proportions ($31!$).
+    \item \textbf{Implement robust input sanitization, diacritic normalization, and validation recovery}, handling keyboard layout variations (e.g., cedilla vs. comma-below variants) and providing explicit feedback upon invalid user inputs.
+\end{enumerate}
+
+% =========================================================================
+% 2. SHORT THEORY
+% =========================================================================
+\section{Short Theory}
+
+\subsection{The Classical Caesar Cipher}
+The Caesar cipher, named after Julius Caesar who used it to communicate with his generals, is one of the earliest known monoalphabetic substitution ciphers. Each letter in the plaintext message is shifted by a fixed number of positions $k$ along the ordered alphabet.
+
+Let the alphabet $\Sigma$ be an ordered set of $n$ distinct symbols:
+\begin{equation}
+    \Sigma = (s_0, s_1, s_2, \dots, s_{n-1})
+\end{equation}
+A bijective encoding function $f: \Sigma \to \mathbb{Z}_n$ assigns each letter a numeric code corresponding to its 0-indexed position:
+\begin{equation}
+    f(s_i) = i, \quad \text{where } i \in \{0, 1, \dots, n-1\}
+\end{equation}
+For the Romanian alphabet, $n = 31$. The assigned numeric codes according to the lab guide specification are presented in Table~\ref{tab:romanian_alphabet}.
+
+\begin{table}[h!]
+\centering
+\caption{Letter encoding of the Romanian alphabet ($n = 31$)}
+\label{tab:romanian_alphabet}
+\small
+\begin{tabular}{|c|c||c|c||c|c||c|c|}
+\hline
+\textbf{Letter} & \textbf{Code} & \textbf{Letter} & \textbf{Code} & \textbf{Letter} & \textbf{Code} & \textbf{Letter} & \textbf{Code} \\
+\hline
+A  & 0  & F & 7  & K & 13 & P  & 18 \\
+Ă  & 1  & G & 8  & L & 14 & Q  & 19 \\
+Â  & 2  & H & 9  & M & 15 & R  & 20 \\
+B  & 3  & I & 10 & N & 16 & S  & 21 \\
+C  & 4  & Î & 11 & O & 17 & Ș  & 22 \\
+D  & 5  & J & 12 & \multicolumn{2}{c||}{} & T  & 23 \\
+E  & 6  & \multicolumn{2}{c||}{} & \multicolumn{2}{c||}{} & Ț  & 24 \\
+\hline
+\multicolumn{2}{|c||}{U = 25} & \multicolumn{2}{c||}{V = 26} & \multicolumn{2}{c||}{W = 27} & \multicolumn{2}{c|}{X = 28} \\
+\hline
+\multicolumn{4}{|c||}{Y = 29} & \multicolumn{4}{c|}{Z = 30} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{Encryption and Decryption Formulas}
+Let $x = f(m)$ represent the numeric code of a plaintext character $m$, and $y = f(c)$ represent the code of the corresponding ciphertext character $c$. The secret key is the shift parameter:
+\begin{equation}
+    k \in \{1, 2, 3, \dots, n - 1\}
+\end{equation}
+The shift $k = 0$ is excluded from the valid key space because it represents the identity transformation $e_0(x) = x$, leaving the plaintext unchanged.
+
+The encryption function $e_k(x)$ and decryption function $d_k(y)$ are defined by modular arithmetic:
+\begin{equation}
+    \label{eq:caesar_encrypt}
+    c = e_k(x) = (x + k) \pmod n
+\end{equation}
+\begin{equation}
+    \label{eq:caesar_decrypt}
+    m = d_k(y) = (y - k) \pmod n
+\end{equation}
+In modular arithmetic, when the difference $(y - k)$ yields a negative value, the mathematical congruence modulo $n$ requires adding $n$ to wrap back into the non-negative interval $[0, n-1]$:
+\begin{equation}
+    (y - k) \pmod n \equiv (y - k + n) \pmod n
+\end{equation}
+This explicit adjustment is essential in programming languages such as C\#, where the native remainder operator \texttt{\%} returns a negative remainder when the dividend is negative.
+
+\subsubsection{Key Space and Security of Classic Caesar}
+The key space $\mathcal{K}$ for the classic Caesar cipher over an alphabet of length $n$ consists of:
+\begin{equation}
+    |\mathcal{K}| = n - 1
+\end{equation}
+For the Romanian alphabet ($n = 31$), the key space is strictly:
+\begin{equation}
+    |\mathcal{K}| = 31 - 1 = 30
+\end{equation}
+Because $|\mathcal{K}| = 30$ is minuscule, the cipher provides no meaningful security against an adversary:
+\begin{itemize}
+    \item \textbf{Exhaustive Search (Brute-Force):} An attacker can decrypt the intercepted ciphertext using all 30 potential values of $k$. Since natural Romanian language exhibits clear lexical structure, exactly one candidate key yields intelligible plaintext. An exhaustive search takes a fraction of a millisecond on any computing device.
+    \item \textbf{Frequency Analysis:} In the Romanian language, character distribution is non-uniform (letters such as \textit{E, I, A, R, T} occur with high frequency, while \textit{Q, W, Y, K} are rare). Because Caesar shifting preserves the shape of the letter frequency distribution curve merely shifted by $k$ slots, comparing the most frequent ciphertext letter directly identifies the key $k$.
+\end{itemize}
+
+% -------------------------------------------------------------------------
+\subsection{The Caesar Cipher with a Permutation (Two-Key Caesar)}
+To mitigate the vulnerability caused by the minuscule key space of the standard Caesar cipher, the natural order of the alphabet is permuted before applying the shift. This variant employs a two-part key $(k_1, k_2)$:
+\begin{itemize}
+    \item \textbf{Key 1 ($k_1$):} The numeric cyclic shift, where $k_1 \in \{1, 2, \dots, n-1\}$.
+    \item \textbf{Key 2 ($k_2$):} A secret keyword consisting of letters from the Romanian alphabet with a minimum length of 7 characters.
+\end{itemize}
+
+\subsubsection{Permutation Construction Algorithm}
+The permuted alphabet $\Sigma_{\text{perm}}$ is generated systematically:
+\begin{enumerate}
+    \item Normalize $k_2$ by converting to uppercase, stripping spaces, and mapping cedilla characters to standard Romanian comma-below letters.
+    \item Extract the distinct characters of $k_2$ in their order of first appearance, dropping any duplicate occurrences.
+    \item Append the remaining letters of the original Romanian alphabet $\Sigma$ that were not present in $k_2$, preserving their standard alphabetical order.
+\end{enumerate}
+
+For example, if the keyword is $k_2 = \text{``CRIPTOGRAFIE''}$ over the 31-letter Romanian alphabet:
+\begin{itemize}
+    \item Distinct letters from keyword: \textbf{C, R, I, P, T, O, G, A, F, E} (10 unique letters; subsequent occurrences of R, I, and E are discarded).
+    \item Remaining Romanian letters: \textbf{Ă, Â, B, D, H, Î, J, K, L, M, N, Q, S, Ș, Ț, U, V, W, X, Y, Z} (21 letters).
+    \item Resulting permuted alphabet $\Sigma_{\text{perm}}$ of length 31:
+    $$\Sigma_{\text{perm}} = \text{C R I P T O G A F E Ă Â B D H Î J K L M N Q S Ș Ț U V W X Y Z}$$
+\end{itemize}
+
+\subsubsection{Encryption and Decryption with Permutation}
+The numeric code of a character is defined as its 0-indexed position within the \textbf{permuted alphabet} $\Sigma_{\text{perm}}$.
+Let $\text{index}_{\Sigma_{\text{perm}}}(ch)$ denote the index of character $ch$ in $\Sigma_{\text{perm}}$, and let $\Sigma_{\text{perm}}[j]$ denote the character at index $j$.
+
+\textbf{Encryption:}
+For each plaintext letter $m_i$:
+\begin{equation}
+    x_i = \text{index}_{\Sigma_{\text{perm}}}(m_i)
+\end{equation}
+\begin{equation}
+    c_i = \Sigma_{\text{perm}}[(x_i + k_1) \pmod n]
+\end{equation}
+
+\textbf{Decryption:}
+For each ciphertext letter $c_i$:
+\begin{equation}
+    y_i = \text{index}_{\Sigma_{\text{perm}}}(c_i)
+\end{equation}
+\begin{equation}
+    m_i = \Sigma_{\text{perm}}[(y_i - k_1 + n) \pmod n]
+\end{equation}
+
+\subsubsection{Key Space and Security Analysis of the Permuted Cipher}
+The number of possible orderings (permutations) of an alphabet of size $n = 31$ is given by factorial $n!$:
+\begin{equation}
+    31! = 8{,}222{,}838{,}654{,}177{,}922{,}817{,}725{,}562{,}880{,}000{,}000 \approx 8.2228 \times 10^{33} \approx 2^{112.6}
+\end{equation}
+Accounting for the numeric shift $k_1 \in \{1, \dots, 30\}$, the theoretical number of key pairs $(k_1, k_2)$ is:
+\begin{equation}
+    (n - 1) \times n! = 30 \times 31! \approx 2.4668 \times 10^{35}
+\end{equation}
+However, because applying a cyclic shift $k_1$ to an already permuted alphabet is mathematically equivalent to another valid permutation of the alphabet, the total number of distinct bijective substitution mappings cannot exceed $n! = 31!$.
+
+\textbf{Cryptanalytic Implications:}
+\begin{itemize}
+    \item \textbf{Immunity to Brute-Force:} A key space of order $31! > 2^{112}$ renders exhaustive key search computationally impossible. Even a supercomputer testing a trillion ($10^{12}$) keys per second would require more than $2.6 \times 10^{14}$ years to exhaust the space.
+    \item \textbf{Vulnerability to Frequency Analysis:} Despite the massive key space, the cipher remains a \textbf{monoalphabetic substitution cipher}. Each plaintext symbol consistently maps to one and only one ciphertext symbol. Consequently, letter frequency distributions, digraph frequencies (e.g., \textit{DE, ÎN, RE, LA}), and trigraphs in the Romanian language remain preserved in the ciphertext. A cryptanalyst can break the cipher using frequency analysis and pattern matching without needing to search the key space.
+\end{itemize}
+
+% =========================================================================
+% 3. IMPLEMENTATION
+% =========================================================================
+\section{Implementation}
+
+\subsection{Architecture and Technologies}
+The solution is developed in \textbf{C\#} using the \textbf{.NET 10.0} runtime. The codebase follows object-oriented and modular programming principles, structured into four cohesive components:
+\begin{itemize}
+    \item \textbf{\texttt{Program.cs}:} The application entry point. Sets the standard console input and output encodings to \texttt{UTF-8} to properly render Romanian diacritics, and initiates the user interaction loop.
+    \item \textbf{\texttt{UserMenu.cs}:} Implements the console user interface, menus, and defensive input processing routines. Reads and validates messages, keys, and keywords, reprompting whenever invalid input is encountered.
+    \item \textbf{\texttt{CaesarCipher.cs}:} Encapsulates the 1-key classic Caesar cipher routines: key validation ($1 \le k \le 30$), text normalization, and modular arithmetic.
+    \item \textbf{\texttt{CaesarCipher2Key.cs}:} Encapsulates the 2-key permuted Caesar cipher routines: key 1 validation, key 2 keyword validation (minimum 7 characters, valid alphabet), permutation builder, and encryption/decryption routines.
+\end{itemize}
+
+\subsection{Key Implementation Fragments}
+
+\subsubsection{Alphabet Definition and Encoding}
+To strictly adhere to Requirement 2 of Task 1.1, the cipher does not compute shifts using underlying ASCII or Unicode scalar values. Instead, a custom Romanian alphabet string represents the exact ordered sequence of Table~\ref{tab:romanian_alphabet}:
+
+\begin{lstlisting}[caption={Romanian Alphabet Definition}]
+string romanianAlphabet = "AĂÂBCDEFGHIÎJKLMNOPQRSȘTȚUVWXYZ";
+\end{lstlisting}
+
+The numeric code of each letter is determined via \texttt{alphabet.IndexOf(c)}, mapping character $c$ directly to its index in $[0, 30]$.
+
+\subsubsection{Diacritic and Cedilla Normalization}
+Romanian keyboards frequently alternate between the official comma-below characters (Ș, Ț) and legacy cedilla-accented characters (Ş, Ţ). To ensure seamless compatibility regardless of the user's keyboard layout, an input normalization routine transforms cedilla characters into their standard comma-below counterparts:
+
+\begin{lstlisting}[caption={Character Normalization Method in CaesarCipher.cs}]
+public static string Normalize(string message)
+{
+    return message
+        .Replace('ş', 'ș')
+        .Replace('Ş', 'Ș')
+        .Replace('ţ', 'ț')
+        .Replace('Ţ', 'Ț');
+}
+\end{lstlisting}
+
+\textbf{Comment:} This method normalizes all incoming plaintext, ciphertext, and keyword strings before any cryptographic processing, preventing rejection of valid Romanian text typed with legacy keyboard drivers.
+
+\subsubsection{Permuted Alphabet Construction}
+The permutation of the alphabet is constructed using a \texttt{HashSet<char>} to track unique characters, and a \texttt{StringBuilder} to assemble the new sequence:
+
+\begin{lstlisting}[caption={Alphabet Permutation Construction in CaesarCipher2Key.cs}]
+public static string BuildPermutedAlphabet(string key2, string alphabet)
+{
+    string normalizedKey = Normalize(key2).Replace(" ", "").ToUpper();
+    StringBuilder result = new();
+    HashSet<char> seen = [];
+
+    // Step 1: Add unique letters from keyword in first-occurrence order
+    foreach (char c in normalizedKey)
+    {
+        if (!seen.Contains(c))
+        {
+            seen.Add(c);
+            result.Append(c);
+        }
+    }
+
+    // Step 2: Append remaining alphabet letters in natural alphabetical order
+    foreach (char c in alphabet)
+    {
+        if (!seen.Contains(c))
+        {
+            seen.Add(c);
+            result.Append(c);
+        }
+    }
+
+    return result.ToString();
+}
+\end{lstlisting}
+
+\textbf{Comment:} The \texttt{HashSet<char>} provides $O(1)$ lookup to ensure each letter appears exactly once. The resulting string has length 31 and begins with the keyword's distinct letters, followed by the unused letters in their original order.
+
+\subsubsection{Encryption and Decryption Logic}
+The core encryption and decryption methods operate on the permuted alphabet for the 2-key variant (and on the standard alphabet for the 1-key variant). Spaces are stripped, characters are uppercased, and modular shifts are applied:
+
+\begin{lstlisting}[caption={Encryption and Decryption in CaesarCipher2Key.cs}]
+public static string Encrypt(string normalMessage, int key, string key2, string alphabet)
+{
+    Key1Validator(key, alphabet);
+    Key2Validator(key2, alphabet);
+    normalMessage = Normalize(normalMessage);
+    StringValidator(normalMessage, alphabet);
+
+    string permutedAlphabet = BuildPermutedAlphabet(key2, alphabet);
+
+    StringBuilder encodedMessage = new();
+    for (int i = 0; i < normalMessage.Length; i++)
+    {
+        if (!char.IsWhiteSpace(normalMessage[i]))
+        {
+            int index = permutedAlphabet.IndexOf(char.ToUpper(normalMessage[i]));
+            int shiftedIndex = (index + key) % permutedAlphabet.Length;
+            char new_c = permutedAlphabet[shiftedIndex];
+            encodedMessage.Append(new_c);
+        }
+    }
+    return encodedMessage.ToString();
+}
+
+public static string Decrypt(string normalMessage, int key, string key2, string alphabet)
+{
+    Key1Validator(key, alphabet);
+    Key2Validator(key2, alphabet);
+    normalMessage = Normalize(normalMessage);
+    StringValidator(normalMessage, alphabet);
+
+    string permutedAlphabet = BuildPermutedAlphabet(key2, alphabet);
+
+    StringBuilder decodedMessage = new();
+    for (int i = 0; i < normalMessage.Length; i++)
+    {
+        if (!char.IsWhiteSpace(normalMessage[i]))
+        {
+            int index = permutedAlphabet.IndexOf(char.ToUpper(normalMessage[i]));
+            // Handle negative remainders in modular arithmetic
+            int shiftedIndex = (index - (key % permutedAlphabet.Length) + permutedAlphabet.Length) 
+                               % permutedAlphabet.Length;
+            char new_c = permutedAlphabet[shiftedIndex];
+            decodedMessage.Append(new_c);
+        }
+    }
+    return decodedMessage.ToString();
+}
+\end{lstlisting}
+
+\textbf{Comment:} In decryption, the expression \texttt{(index - (key \% n) + n) \% n} guarantees a non-negative dividend before computing the remainder, correctly wrapping negative differences back into $[0, n-1]$.
+
+\subsubsection{Defensive Input Validation and Error Recovery}
+Per Requirement 5 of Task 1.1 and Requirement 5 of Task 1.2, any invalid input must produce a clear error message stating the allowed range or rejected character, and prompt the user again without crashing:
+
+\begin{lstlisting}[caption={Interactive Validation and Prompting in UserMenu.cs}]
+private int? ReadValidKey(string prompt)
+{
+    while (true)
+    {
+        Console.Write(prompt);
+        string? raw = Console.ReadLine();
+        if (raw == null) return null;
+        raw = raw.Trim().Trim('\uFEFF');
+        if (int.TryParse(raw, out int key) && key >= 1 && key <= alphabet.Length - 1)
+        {
+            return key;
+        }
+        Console.WriteLine($"Error: Invalid key. Allowed range is an integer between 1 and {alphabet.Length - 1} inclusive.");
+        Console.WriteLine("Please enter the key again.");
+    }
+}
+
+private string? ReadValidKey2(string prompt)
+{
+    while (true)
+    {
+        Console.Write(prompt);
+        string? raw = Console.ReadLine();
+        if (raw == null) return null;
+        string key2 = raw;
+        string normalized = CaesarCipher2Key.Normalize(key2).Replace(" ", "");
+        if (normalized.Length < 7)
+        {
+            Console.WriteLine($"Error: Key 2 (keyword) must be at least 7 characters long. (Entered length: {normalized.Length}).");
+            Console.WriteLine("Please enter the keyword again.");
+            continue;
+        }
+
+        bool valid = true;
+        foreach (char c in normalized)
+        {
+            if (!alphabet.Contains(char.ToUpper(c)))
+            {
+                Console.WriteLine($"Error: Invalid character '{c}' rejected in keyword. Only Romanian alphabet letters are allowed.");
+                valid = false;
+                break;
+            }
+        }
+        if (valid) return key2;
+        Console.WriteLine("Please enter the keyword again.");
+    }
+}
+\end{lstlisting}
+
+\textbf{Comment:} The validation routines loop indefinitely until the user supplies compliant data. If an illegal character is supplied (e.g., a number or punctuation mark), the specific rejected character is printed to guide the user.
+
+% =========================================================================
+% 4. RESULTS
+% =========================================================================
+\section{Results}
+
+This section presents execution outputs verifying all functional requirements, including standard encryption, decryption, alphabet permutation verification, and defensive input validation.
+
+\subsection{Task 1.1: Classic Caesar Cipher Execution}
+
+\subsubsection{Test 1.1.1: Encryption and Decryption of Romanian Plaintext}
+We test the encryption of the phrase \textit{``cifrul cezar''} with key $k = 3$.
+\begin{itemize}
+    \item Plaintext: \texttt{cifrul cezar}
+    \item Stripped/Uppercased: \texttt{CIFRULCEZAR}
+    \item Mapping trace:
+    \begin{itemize}
+        \item C (code 4) $\to (4+3) \bmod 31 = 7 \to$ \textbf{F}
+        \item I (code 10) $\to (10+3) \bmod 31 = 13 \to$ \textbf{K}
+        \item F (code 7) $\to (7+3) \bmod 31 = 10 \to$ \textbf{I}
+        \item R (code 20) $\to (20+3) \bmod 31 = 23 \to$ \textbf{T}
+        \item U (code 25) $\to (25+3) \bmod 31 = 28 \to$ \textbf{X}
+        \item L (code 14) $\to (14+3) \bmod 31 = 17 \to$ \textbf{O}
+        \item C (code 4) $\to (4+3) \bmod 31 = 7 \to$ \textbf{F}
+        \item E (code 6) $\to (6+3) \bmod 31 = 9 \to$ \textbf{H}
+        \item Z (code 30) $\to (30+3) \bmod 31 = 33 \bmod 31 = 2 \to$ \textbf{Â}
+        \item A (code 0) $\to (0+3) \bmod 31 = 3 \to$ \textbf{B}
+        \item R (code 20) $\to (20+3) \bmod 31 = 23 \to$ \textbf{T}
+    \end{itemize}
+    \item Expected Ciphertext: \texttt{FKITXOFHÂBT}
+\end{itemize}
+
+\begin{terminalwindow}
+Choose an option: 
+1. 1-Key Caesar Cipher
+2. 2-Key Caesar Cipher
+3. Exit
+> 1
+
+Choose an option: 
+1. Encrypt
+2. Decrypt
+3. Exit
+> 1
+Enter the message: cifrul cezar
+Enter the encryption key (1 - 30): 3
+Encrypted message: FKITXOFHÂBT
+
+Choose an option: 
+1. Encrypt
+2. Decrypt
+3. Exit
+> 2
+Enter the encrypted message: FKITXOFHÂBT
+Enter the decryption key (1 - 30): 3
+Decrypted message: CIFRULCEZAR
+\end{terminalwindow}
+
+The decrypted message matches the original plaintext \texttt{CIFRULCEZAR}, demonstrating mathematical correctness and complete invertibility over the 31-letter Romanian alphabet.
+
+\subsubsection{Test 1.1.2: Error Handling for Invalid Key and Characters}
+Testing key boundaries (key = 0, key = 35, non-integer) and invalid characters in message text:
+
+\begin{terminalwindow}
+Choose an option: 
+1. 1-Key Caesar Cipher
+2. 2-Key Caesar Cipher
+3. Exit
+> 1
+
+Choose an option: 
+1. Encrypt
+2. Decrypt
+3. Exit
+> 1
+Enter the message: salut 123!
+Error: Invalid character '1' rejected. Allowed characters are Romanian alphabet letters (A-Z, Ă, Â, Î, Ș, Ț).
+Please enter the text again.
+Enter the message: salut
+Enter the encryption key (1 - 30): 0
+Error: Invalid key. Allowed range is an integer between 1 and 30 inclusive.
+Please enter the key again.
+Enter the encryption key (1 - 30): 35
+Error: Invalid key. Allowed range is an integer between 1 and 30 inclusive.
+Please enter the key again.
+Enter the encryption key (1 - 30): abc
+Error: Invalid key. Allowed range is an integer between 1 and 30 inclusive.
+Please enter the key again.
+Enter the encryption key (1 - 30): 5
+Encrypted message: VDQZX
+\end{terminalwindow}
+
+The application cleanly rejects the out-of-range keys (0, 35) and non-numeric inputs, explicitly displays the rejected character \texttt{'1'}, and repeatedly prompts until valid input is supplied.
+
+% -------------------------------------------------------------------------
+\subsection{Task 1.2: Caesar Cipher with Permutation Execution}
+
+\subsubsection{Test 1.2.1: Permuted Alphabet Display, Encryption, and Decryption}
+We test the two-key cipher with:
+\begin{itemize}
+    \item Plaintext: \textit{``securitatea rețelelor''}
+    \item Key 1 (Shift): $k_1 = 7$
+    \item Key 2 (Keyword): $k_2 = \text{``criptografie''}$ (length 12 $\ge 7$)
+\end{itemize}
+
+\begin{terminalwindow}
+Choose an option: 
+1. 1-Key Caesar Cipher
+2. 2-Key Caesar Cipher
+3. Exit
+> 2
+
+Choose an option: 
+1. Encrypt
+2. Decrypt
+3. Exit
+> 1
+Enter the message: securitatea retelelor
+Enter key-1 (shift: 1 - 30): 7
+Enter encryption key-2 (keyword >= 7 characters): criptografie
+Permuted Alphabet: CRIPTOGAFEĂÂBDHÎJKLMNQSȘȚUVWXYZ
+Encrypted message: YJARFEÂHÂJHFJÂJUJUBF
+
+Choose an option: 
+1. Encrypt
+2. Decrypt
+3. Exit
+> 2
+Enter the encrypted message: YJARFEÂHÂJHFJÂJUJUBF
+Enter decryption key-1 (shift: 1 - 30): 7
+Enter decryption key-2 (keyword >= 7 characters): criptografie
+Permuted Alphabet: CRIPTOGAFEĂÂBDHÎJKLMNQSȘȚUVWXYZ
+Decrypted message: SECURITATEARETELELOR
+\end{terminalwindow}
+
+\subsubsection{Manual Verification of Permutation Encryption}
+Per Requirement 4 of Task 1.2, the permuted alphabet is printed to the console so that the result can be verified by hand:
+\begin{equation}
+    \Sigma_{\text{perm}} = \text{\texttt{CRIPTOGAFEĂÂBDHÎJKLMNQSȘȚUVWXYZ}}
+\end{equation}
+Table~\ref{tab:manual_check} illustrates the manual index lookup for the first few letters of \texttt{SECURITATEA...}:
+
+\begin{table}[h!]
+\centering
+\caption{Manual verification for message ``SECURITATEA'' with $k_1 = 7$ under $\Sigma_{\text{perm}}$}
+\label{tab:manual_check}
+\small
+\begin{tabular}{cccc}
+\toprule
+\textbf{Plaintext ($m$)} & \textbf{Index in $\Sigma_{\text{perm}}$ ($x$)} & \textbf{Shifted $(x+7) \bmod 31$} & \textbf{Ciphertext ($c$)} \\
+\midrule
+S & 22 & $(22+7) \bmod 31 = 29$ & \textbf{Y} \\
+E & 9  & $(9+7) \bmod 31 = 16$  & \textbf{J} \\
+C & 0  & $(0+7) \bmod 31 = 7$   & \textbf{A} \\
+U & 25 & $(25+7) \bmod 31 = 1$  & \textbf{R} \\
+R & 1  & $(1+7) \bmod 31 = 8$   & \textbf{F} \\
+I & 2  & $(2+7) \bmod 31 = 9$   & \textbf{E} \\
+T & 4  & $(4+7) \bmod 31 = 11$  & \textbf{Â} \\
+A & 7  & $(7+7) \bmod 31 = 14$  & \textbf{H} \\
+T & 4  & $(4+7) \bmod 31 = 11$  & \textbf{Â} \\
+E & 9  & $(9+7) \bmod 31 = 16$  & \textbf{J} \\
+A & 7  & $(7+7) \bmod 31 = 14$  & \textbf{H} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The resulting string \texttt{YJARFEÂHÂJH...} perfectly matches the program output, verifying mathematical and algorithmic consistency.
+
+\subsubsection{Test 1.2.2: Error Handling for Keyword Validation}
+Testing invalid keyword scenarios, including keywords shorter than 7 characters and keywords containing non-alphabet characters:
+
+\begin{terminalwindow}
+Choose an option: 
+1. 1-Key Caesar Cipher
+2. 2-Key Caesar Cipher
+3. Exit
+> 2
+
+Choose an option: 
+1. Encrypt
+2. Decrypt
+3. Exit
+> 1
+Enter the message: salut
+Enter key-1 (shift: 1 - 30): 5
+Enter encryption key-2 (keyword >= 7 characters): secret
+Error: Key 2 (keyword) must be at least 7 characters long. (Entered length: 6).
+Please enter the keyword again.
+Enter encryption key-2 (keyword >= 7 characters): parola123
+Error: Invalid character '1' rejected in keyword. Only Romanian alphabet letters are allowed.
+Please enter the keyword again.
+Enter encryption key-2 (keyword >= 7 characters): securitate
+Permuted Alphabet: SECURITAĂÂBDFGHÎJKLMNOPQȘȚVWXYZ
+Encrypted message: IFQĂD
+\end{terminalwindow}
+
+The system accurately rejects the 6-character keyword \texttt{"secret"}, flags the illegal digit in \texttt{"parola123"}, and accepts the compliant keyword \texttt{"securitate"}.
+
+% =========================================================================
+% 5. CONCLUSIONS
+% =========================================================================
+\section{Conclusions}
+
+Through this laboratory work, we investigated classical symmetric encryption mechanisms by implementing and analyzing both the standard Caesar cipher and the keyword-permuted Caesar cipher over the 31-letter Romanian alphabet.
+
+The key conclusions drawn from this work are:
+\begin{enumerate}
+    \item \textbf{Key Space vs. Practical Security:}
+    The standard Caesar cipher features a trivial key space ($|\mathcal{K}| = 30$), making it vulnerable to instantaneous brute-force recovery. In contrast, introducing a keyword permutation expands the theoretical permutation space to $31! \approx 8.22 \times 10^{33}$, effectively eliminating brute-force attacks. However, because the cipher remains \textit{monoalphabetic}, it preserves the statistical letter frequencies of natural Romanian language. A cryptanalyst armed with frequency tables can readily decrypt the message without knowledge of the keys.
+    \item \textbf{Proper Character Encoding and Arithmetic:}
+    Handling language-specific alphabets with diacritics (such as Ă, Â, Î, Ș, Ț) requires deliberate architectural separation between internal numeric indices and platform-specific encodings (UTF-8). In accordance with the assignment specifications, computing shifts without relying on ASCII/Unicode numeric values ensures strict mathematical fidelity to Table~\ref{tab:romanian_alphabet}.
+    \item \textbf{Robustness and Defensive Programming:}
+    Accounting for keyboard variations (normalizing cedilla variants Ş/Ţ to comma-below Ș/Ț) and implementing non-terminating validation loops creates a resilient, user-friendly system that prevents crashes when supplied with malformed input.
+\end{enumerate}
+
+% =========================================================================
+% 6. SOURCE CODE
+% =========================================================================
+\section{Source Code}
+
+The complete source code for this laboratory work is version-controlled and publicly accessible on GitHub:
+
+\begin{center}
+\large
+\url{https://github.com/Vitalieww/CryptographyAndSecurityCourse/tree/lab_1/lab_1/RomanianCaesarCipher}
+\end{center}
+
+\subsection{Building and Running the Project}
+To build and execute the application locally:
+\begin{enumerate}
+    \item Clone the repository and switch to the \texttt{lab\_1} branch:
+\begin{lstlisting}[language=bash,numbers=none,basicstyle=\footnotesize\ttfamily]
+git clone https://github.com/Vitalieww/CryptographyAndSecurityCourse.git
+cd CryptographyAndSecurityCourse
+git checkout lab_1
+\end{lstlisting}
+    \item Navigate to the project directory:
+\begin{lstlisting}[language=bash,numbers=none,basicstyle=\footnotesize\ttfamily]
+cd lab_1/RomanianCaesarCipher
+\end{lstlisting}
+    \item Build and execute with the .NET SDK:
+\begin{lstlisting}[language=bash,numbers=none,basicstyle=\footnotesize\ttfamily]
+dotnet run
+\end{lstlisting}
+\end{enumerate}
+
+% =========================================================================
+% REFERENCES
+% =========================================================================
+\begin{thebibliography}{9}
+\bibitem{labguide}
+Laboratory Work No. 1 Guide: \emph{The Caesar Cipher and Caesar Cipher with Permutation for the Romanian Alphabet}. Technical University of Moldova, 2026.
+\bibitem{stallings}
+William Stallings, \emph{Cryptography and Network Security: Principles and Practice}, 8th Edition, Pearson, 2020.
+\bibitem{menezes}
+Alfred J. Menezes, Paul C. van Oorschot, and Scott A. Vanstone, \emph{Handbook of Applied Cryptography}, CRC Press, 1996.
+\end{thebibliography}
+
+\end{document}
