@@ -7,9 +7,9 @@ namespace lab_1
     {
         private static void KeyValidator(int key, string alphabet)
         {
-            if (key < 0 || key > alphabet.Length - 1)
+            if (key < 1 || key > alphabet.Length - 1)
             {
-                throw new ArgumentException($"Key cannot be smaller than 0 or bigger than {alphabet.Length - 1}");
+                throw new ArgumentException($"Key must be an integer between 1 and {alphabet.Length - 1} inclusive. Received: {key}");
             }
         }
 
@@ -32,7 +32,7 @@ namespace lab_1
                 }
                 if (!alphabet.Contains(char.ToUpper(c)))
                 {
-                    throw new ArgumentException($"The message contains a letter '{c}' that does not exist in the alphabet");
+                    throw new ArgumentException($"The message contains invalid character '{c}'. Only letters from the Romanian alphabet are allowed.");
                 }
             }
         }

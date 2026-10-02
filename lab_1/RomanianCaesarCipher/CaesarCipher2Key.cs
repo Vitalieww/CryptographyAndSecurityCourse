@@ -4,44 +4,71 @@ namespace lab_1
 {
     public class CaesarCipher2Key
     {
-        private static void Key1Validator(int key, string alphabet)
+        public static void Key1Validator(int key, string alphabet)
         {
-            if (key < 0 || key > alphabet.Length - 1)
+            if (key < 1 || key > alphabet.Length - 1)
             {
-                throw new ArgumentException($"The first key cannot be smaller than 0 or bigger than {alphabet.Length - 1}");
+                throw new ArgumentException($"Key 1 must be an integer between 1 and {alphabet.Length - 1} inclusive. Received: {key}");
             }
         }
 
-        private static void Key2Validator(string key, string alphabet)
+        public static void Key2Validator(string key, string alphabet)
         {
+            string normalized = Normalize(key).Replace(" ", "");
             int minLength = 7;
-            if (key.Length < minLength)
+            if (normalized.Length < minLength)
             {
-                throw new ArgumentException($"The second key is shorter than {minLength}");
+                throw new ArgumentException($"Key 2 (keyword) must be at least {minLength} characters long. Current length: {normalized.Length}");
             }
-            key = key.ToUpper();
-            foreach (char c in key)
+            foreach (char c in normalized)
             {
-                if (!alphabet.Contains(c))
+                if (!alphabet.Contains(char.ToUpper(c)))
                 {
-                    throw new ArgumentException($"The second key contains a letter '{c}' that does not exist in the alphabet");
+                    throw new ArgumentException($"Key 2 contains invalid character '{c}'. Only letters from the Romanian alphabet are allowed.");
                 }
             }
         }
 
-        private static string Key2Normalize(string key)
+        public static string Normalize(string message)
         {
-            key = Normalize(key).Replace(" ", "").ToUpper();
-            key = RemoveDuplicates(key);
-            return key;
+            return message
+                .Replace('ş', 'ș')
+                .Replace('Ş', 'Ș')
+                .Replace('ţ', 'ț')
+                .Replace('Ţ', 'Ț');
         }
 
-        private static string RemoveDuplicates(string input)
+        public static void StringValidator(string message, string alphabet)
         {
+            foreach (char c in message)
+            {
+                if (char.IsWhiteSpace(c))
+                {
+                    continue;
+                }
+                if (!alphabet.Contains(char.ToUpper(c)))
+                {
+                    throw new ArgumentException($"The message contains invalid character '{c}'. Only letters from the Romanian alphabet are allowed.");
+                }
+            }
+        }
+
+        public static string BuildPermutedAlphabet(string key2, string alphabet)
+        {
+            string normalizedKey = Normalize(key2).Replace(" ", "").ToUpper();
             StringBuilder result = new();
             HashSet<char> seen = [];
 
-            foreach (char c in input)
+            foreach (char c in normalizedKey)
+            {
+                if (!seen.Contains(c))
+                {
+                    seen.Add(c);
+                    result.Append(c);
+                }
+            }
+
+            foreach (char c in alphabet)
             {
                 if (!seen.Contains(c))
                 {
@@ -53,62 +80,23 @@ namespace lab_1
             return result.ToString();
         }
 
-        private static string Normalize(string message)
-        {
-            return message
-                .Replace('ş', 'ș')
-                .Replace('Ş', 'Ș')
-                .Replace('ţ', 'ț')
-                .Replace('Ţ', 'Ț');
-        }
-
-        private static void StringValidator(string message, string alphabet)
-        {
-            foreach (char c in message)
-            {
-                if (char.IsWhiteSpace(c))
-                {
-                    continue;
-                }
-                if (!alphabet.Contains(char.ToUpper(c)))
-                {
-                    throw new ArgumentException($"The message contains a letter '{c}' that does not exist in the alphabet");
-                }
-            }
-        }
-
-        private static string ConcatKey2ToAlphabet(string key, string alphabet)
-        {
-            string modifiedAlphabet = alphabet;
-            foreach (char c in key)
-            {
-                if (modifiedAlphabet.Contains(c))
-                {
-                    modifiedAlphabet = modifiedAlphabet.Replace($"{c}", "");
-                }
-            }
-            modifiedAlphabet = string.Concat(key, modifiedAlphabet);
-            return modifiedAlphabet;
-        }
-
         public static string Encrypt(string normalMessage, int key, string key2, string alphabet)
         {
-            normalMessage = Normalize(normalMessage);
-            key2 = Key2Normalize(key2);
             Key1Validator(key, alphabet);
             Key2Validator(key2, alphabet);
+            normalMessage = Normalize(normalMessage);
             StringValidator(normalMessage, alphabet);
-            string modifiedAlphabet = ConcatKey2ToAlphabet(key2, alphabet);
-            Console.WriteLine($"Permuted Alphabet: {modifiedAlphabet}");
+
+            string permutedAlphabet = BuildPermutedAlphabet(key2, alphabet);
 
             StringBuilder encodedMessage = new();
             for (int i = 0; i < normalMessage.Length; i++)
             {
                 if (!char.IsWhiteSpace(normalMessage[i]))
                 {
-                    int index = alphabet.IndexOf(char.ToUpper(normalMessage[i]));
-                    int shiftedIndex = (index + key) % modifiedAlphabet.Length;
-                    char new_c = modifiedAlphabet[shiftedIndex];
+                    int index = permutedAlphabet.IndexOf(char.ToUpper(normalMessage[i]));
+                    int shiftedIndex = (index + key) % permutedAlphabet.Length;
+                    char new_c = permutedAlphabet[shiftedIndex];
                     encodedMessage.Append(new_c);
                 }
             }
@@ -117,22 +105,21 @@ namespace lab_1
 
         public static string Decrypt(string normalMessage, int key, string key2, string alphabet)
         {
-            normalMessage = Normalize(normalMessage);
-            key2 = Key2Normalize(key2);
             Key1Validator(key, alphabet);
             Key2Validator(key2, alphabet);
+            normalMessage = Normalize(normalMessage);
             StringValidator(normalMessage, alphabet);
-            string modifiedAlphabet = ConcatKey2ToAlphabet(key2, alphabet);
-            Console.WriteLine($"Permuted Alphabet: {modifiedAlphabet}");
+
+            string permutedAlphabet = BuildPermutedAlphabet(key2, alphabet);
 
             StringBuilder decodedMessage = new();
             for (int i = 0; i < normalMessage.Length; i++)
             {
                 if (!char.IsWhiteSpace(normalMessage[i]))
                 {
-                    int index = modifiedAlphabet.IndexOf(char.ToUpper(normalMessage[i]));
-                    int shiftedIndex = (index - (key % alphabet.Length) + alphabet.Length) % alphabet.Length;
-                    char new_c = alphabet[shiftedIndex];
+                    int index = permutedAlphabet.IndexOf(char.ToUpper(normalMessage[i]));
+                    int shiftedIndex = (index - (key % permutedAlphabet.Length) + permutedAlphabet.Length) % permutedAlphabet.Length;
+                    char new_c = permutedAlphabet[shiftedIndex];
                     decodedMessage.Append(new_c);
                 }
             }
