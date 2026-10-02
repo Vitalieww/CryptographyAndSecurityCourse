@@ -34,8 +34,8 @@
 \definecolor{codegreen}{RGB}{39, 136, 60}
 \definecolor{codepurple}{RGB}{137, 89, 168}
 \definecolor{codegray}{RGB}{108, 117, 125}
-\definecolor{termbg}{RGB}{24, 24, 24}
-\definecolor{termfg}{RGB}{220, 220, 220}
+\definecolor{termbg}{RGB}{0, 0, 0}
+\definecolor{termfg}{RGB}{255, 255, 255}
 \definecolor{termgreen}{RGB}{80, 250, 123}
 \definecolor{termred}{RGB}{255, 85, 85}
 \definecolor{termyellow}{RGB}{241, 250, 140}
@@ -89,18 +89,21 @@
 % --- Terminal Box Setup ---
 \newtcblisting{terminalwindow}[1][]{%
     enhanced,
-    colback=termbg,
-    colframe=gray!40!black,
-    arc=3mm,
+    colback=black,
+    colframe=black,
+    arc=2.5mm,
     boxrule=1pt,
     title={\textcolor{termred}{$\bullet$}\;\textcolor{termyellow}{$\bullet$}\;\textcolor{termgreen}{$\bullet$}\quad \textsf{\bfseries Console Terminal Session}},
     fonttitle=\small\sffamily\bfseries,
     coltitle=white,
     attach boxed title to top left={yshift=-2mm, xshift=4mm},
-    boxed title style={colback=gray!25!black, arc=2mm, boxrule=0.5pt},
+    boxed title style={colback=gray!15!black, arc=1.5mm, boxrule=0.5pt},
     listing only,
     listing options={
-        basicstyle=\small\ttfamily\color{termfg},
+        backgroundcolor=\color{black},
+        basicstyle=\small\ttfamily\color{white},
+        frame=none,
+        numbers=none,
         breaklines=true,
         tabsize=4,
         showspaces=false,
@@ -145,7 +148,7 @@
 \renewcommand{\footrulewidth}{0pt}
 
 % --- Macros ---
-\newcommand{\studentgroup}{FAF-231} % Adjust if needed
+\newcommand{\studentgroup}{FAF-241} % Adjust if needed
 
 \begin{document}
 
@@ -166,14 +169,14 @@
         \flushleft
         \textbf{Author:}\\
         Vitalie \textsc{Vasilean}\\
-        Student of group \studentgroup
+        Student of group: \studentgroup
     \end{minipage}
     \hfill
     \begin{minipage}{0.45\textwidth}
         \flushright
         \textbf{Verified by:}\\
-        Department of ISA\\
-        Lecturer / Supervisor
+        Lecturer / Supervisor\\
+        Maia Zaica
     \end{minipage}
 
     \vfill
