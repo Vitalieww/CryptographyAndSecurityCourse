@@ -55,3 +55,16 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+#vscode
+.vscode
+
+# LaTeX build artifacts
+*.aux
+*.log
+*.out
+*.toc
+*.listing
+*.synctex.gz
+*.fls
+*.fdb_latexmk
