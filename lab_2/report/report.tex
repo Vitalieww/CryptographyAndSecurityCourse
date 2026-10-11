@@ -1,0 +1,535 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[many]{tcolorbox}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+% --- Page Setup ---
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% --- Custom Colors ---
+\definecolor{primary}{RGB}{18, 52, 86}
+\definecolor{secondary}{RGB}{41, 128, 185}
+\definecolor{accent}{RGB}{231, 76, 60}
+\definecolor{codebg}{RGB}{247, 249, 250}
+\definecolor{codeframe}{RGB}{209, 213, 219}
+\definecolor{codegreen}{RGB}{39, 136, 60}
+\definecolor{codepurple}{RGB}{137, 89, 168}
+\definecolor{codegray}{RGB}{108, 117, 125}
+\definecolor{termbg}{RGB}{0, 0, 0}
+\definecolor{termfg}{RGB}{255, 255, 255}
+\definecolor{termgreen}{RGB}{80, 250, 123}
+\definecolor{termred}{RGB}{255, 85, 85}
+\definecolor{termyellow}{RGB}{241, 250, 140}
+\definecolor{termcyan}{RGB}{139, 233, 253}
+
+% --- Romanian Character Literate for Listings ---
+\lstset{
+    extendedchars=true,
+    literate=%
+        {ă}{{\u{a}}}1
+        {Ă}{{\u{A}}}1
+        {â}{{\^a}}1
+        {Â}{{\^A}}1
+        {î}{{\^\i}}1
+        {Î}{{\^I}}1
+        {ș}{{\c{s}}}1
+        {Ș}{{\c{S}}}1
+        {ț}{{\c{t}}}1
+        {Ț}{{\c{T}}}1
+        {ş}{{\c{s}}}1
+        {Ş}{{\c{S}}}1
+        {ţ}{{\c{t}}}1
+        {Ţ}{{\c{T}}}1
+}
+
+% --- Listings Setup ---
+\lstset{
+    language=[Sharp]C,
+    backgroundcolor=\color{codebg},
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{secondary}\bfseries,
+    stringstyle=\color{codegreen},
+    commentstyle=\color{codegray}\itshape,
+    numberstyle=\tiny\color{codegray},
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    rulecolor=\color{codeframe},
+    captionpos=b,
+    keepspaces=true
+}
+
+\tcbuselibrary{listings,skins}
+
+% --- Terminal Box Setup ---
+\newtcblisting{terminalwindow}[1][]{%
+    enhanced,
+    colback=black,
+    colframe=black,
+    arc=2.5mm,
+    boxrule=1pt,
+    title={\textcolor{termred}{$\bullet$}\;\textcolor{termyellow}{$\bullet$}\;\textcolor{termgreen}{$\bullet$}\quad \textsf{\bfseries Console Terminal Session}},
+    fonttitle=\small\sffamily\bfseries,
+    coltitle=white,
+    attach boxed title to top left={yshift=-2mm, xshift=4mm},
+    boxed title style={colback=gray!15!black, arc=1.5mm, boxrule=0.5pt},
+    listing only,
+    listing options={
+        backgroundcolor=\color{black},
+        basicstyle=\small\ttfamily\color{white},
+        frame=none,
+        numbers=none,
+        breaklines=true,
+        tabsize=4,
+        showspaces=false,
+        showstringspaces=false,
+        extendedchars=true,
+        literate=%
+            {ă}{{\u{a}}}1
+            {Ă}{{\u{A}}}1
+            {â}{{\^a}}1
+            {Â}{{\^A}}1
+            {î}{{\^\i}}1
+            {Î}{{\^I}}1
+            {ș}{{\c{s}}}1
+            {Ș}{{\c{S}}}1
+            {ț}{{\c{t}}}1
+            {Ț}{{\c{T}}}1
+    },
+    #1
+}
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    citecolor=secondary,
+    urlcolor=secondary
+}
+
+% --- Headers & Footers ---
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-3pt}
+\fancyhead[L]{\small\textsf{Laboratory Work No. 2 --- Cryptography \& Information Security}}
+\fancyhead[R]{\small\textsf{Vitalie Vasilean}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Macros ---
+\newcommand{\studentgroup}{FAF-241}
+
+\begin{document}
+
+% =========================================================================
+% TITLE PAGE
+% =========================================================================
+\begin{titlepage}
+    \centering
+    {\large \textbf{TECHNICAL UNIVERSITY OF MOLDOVA}}\\[0.2cm]
+    {\large Faculty of Computers, Informatics and Microelectronics}\\[0.2cm]
+    {\large Department of Software Engineering and Automatics}\\[0.8cm]
+
+    \includegraphics[width=3.5cm]{figures/utm_logo.png}\\[1.2cm]
+
+    {\Large \textbf{LABORATORY WORK NO. 2}}\\[0.4cm]
+    {\LARGE \textbf{Cryptanalysis of Monoalphabetic Substitution Ciphers}}\\[0.4cm]
+    {\large Course: Cryptography and Information Security}\\[2.5cm]
+
+    \begin{minipage}{0.45\textwidth}
+        \flushleft
+        \textbf{Author:}\\
+        Vitalie \textsc{Vasilean}\\
+        Student of group: \studentgroup
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \flushright
+        \textbf{Verified by:}\\
+        Lecturer / Supervisor\\
+        Maia Zaica
+    \end{minipage}
+
+    \vfill
+    {\large Chișinău --- 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+% 1. INTRODUCTION AND OBJECTIVES
+% =========================================================================
+\section{Introduction and Laboratory Objectives}
+
+Monoalphabetic substitution ciphers represent one of the oldest forms of encipherment. In such cryptosystems, every occurrence of a given character in the plaintext alphabet is consistently replaced by a corresponding unique character from a ciphertext alphabet. While the key space of a general monoalphabetic cipher ($26! \approx 4.03 \times 10^{26}$) is vastly larger than that of a trivial Caesar shift ($26$ shifts), the fundamental weakness of all monoalphabetic systems lies in their total preservation of language statistical frequencies.
+
+Because the mapping between plaintext and ciphertext characters is static and bijective, statistical traits of natural human languages---such as letter occurrence frequencies, digraphs, trigraphs, doubled letters, and short word patterns---are directly reflected in the ciphertext. Cryptanalysis through frequency analysis allows an eavesdropper to reconstruct the substitution key without requiring a brute-force search of the factorial key space.
+
+The specific objectives of this laboratory work are:
+\begin{enumerate}
+    \item \textbf{Understand the theoretical principles of frequency analysis} as described historically by ninth-century scholar Al-Kindi and applied in classical and modern cryptanalysis.
+    \item \textbf{Implement a modular, object-oriented .NET (C\# 10) application} capable of computing letter frequencies, n-grams, Index of Coincidence ($I_C$), performing progressive substitutions, and detecting mathematical cipher properties.
+    \item \textbf{Analyze and break the assigned ciphertext (Variant 23)} using systematic frequency statistics and iterative linguistic deductions.
+    \item \textbf{Determine the mathematical structure of the substitution key}, proving whether the cipher corresponds to an Affine transformation $C \equiv (a \cdot P + b) \pmod{26}$.
+    \item \textbf{Recover the complete plaintext message} and reconstruct the full $26$-letter substitution alphabet.
+\end{enumerate}
+
+% =========================================================================
+% 2. THEORETICAL FOUNDATIONS
+% =========================================================================
+\section{Theoretical Foundations}
+
+\subsection{Monoalphabetic Substitution Model}
+Let $\Sigma$ denote the standard English alphabet consisting of $n = 26$ symbols, $\Sigma = \{\text{A, B, C, \dots, Z}\}$. Let $\mathbb{Z}_{26} = \{0, 1, \dots, 25\}$ represent the corresponding residue classes modulo $26$.
+
+A monoalphabetic substitution cipher is determined by a permutation key $\pi: \Sigma \to \Sigma$. The encryption and decryption operations on plaintext $m = (m_0, m_1, \dots, m_{L-1})$ are defined as:
+\begin{equation}
+    c_i = \pi(m_i), \quad m_i = \pi^{-1}(c_i), \quad \forall i \in \{0, 1, \dots, L-1\}
+\end{equation}
+
+Although $|\mathcal{K}| = 26! \approx 4.03 \times 10^{26}$, making brute-force enumeration computationally infeasible by manual means, the mapping preserves letter frequencies:
+\begin{equation}
+    \mathbb{P}(C = \pi(x)) = \mathbb{P}(M = x), \quad \forall x \in \Sigma
+\end{equation}
+
+\subsection{Index of Coincidence ($I_C$)}
+The Index of Coincidence, introduced by William F. Friedman in 1922, measures the probability that two randomly selected characters from a given text are identical. For a ciphertext of length $N$ with letter frequencies $f_i$ ($i \in \{\text{A}, \dots, \text{Z}\}$):
+\begin{equation}
+    \label{eq:ioc}
+    I_C = \frac{\sum_{i=\text{A}}^{\text{Z}} f_i (f_i - 1)}{N(N - 1)}
+\end{equation}
+
+For natural English text, $I_C \approx 0.0667$ (typically in the range $0.065 - 0.068$). Conversely, for a polyalphabetic cipher (such as Vigenère with long periods) or uniform random noise, $I_C \approx \frac{1}{26} \approx 0.0385$. Computing $I_C$ enables the cryptanalyst to immediately confirm that the ciphertext was generated via monoalphabetic substitution before initiating letter mapping.
+
+\subsection{Standard English Frequency Profile}
+According to the laboratory specification, standard English exhibits a distinctive non-uniform frequency distribution (Table~\ref{tab:std_frequencies}).
+
+\begin{table}[h!]
+\centering
+\caption{Standard English Letter Frequencies (Lab Guide Table 2.2)}
+\label{tab:std_frequencies}
+\small
+\begin{tabular}{|c|c||c|c||c|c||c|c|}
+\hline
+\textbf{Letter} & \textbf{Freq (\%)} & \textbf{Letter} & \textbf{Freq (\%)} & \textbf{Letter} & \textbf{Freq (\%)} & \textbf{Letter} & \textbf{Freq (\%)} \\
+\hline
+A & 8.17 & H & 6.09 & O & 7.51 & V & 0.98 \\
+B & 1.49 & I & 6.97 & P & 1.93 & W & 2.36 \\
+C & 2.78 & J & 0.15 & Q & 0.09 & X & 0.15 \\
+D & 4.25 & K & 0.77 & R & 5.99 & Y & 1.97 \\
+E & 12.70 & L & 4.03 & S & 6.33 & Z & 0.07 \\
+F & 2.23 & M & 2.41 & T & 9.06 & \multicolumn{2}{c|}{} \\
+G & 2.01 & N & 6.75 & U & 2.76 & \multicolumn{2}{c|}{} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Affine Ciphers as Structured Monoalphabetic Substitutions}
+A special class of monoalphabetic substitution ciphers is the Affine Cipher, parameterized by a pair of integers $(a, b) \in \mathbb{Z}_{26} \times \mathbb{Z}_{26}$ with $\gcd(a, 26) = 1$:
+\begin{equation}
+    c_i \equiv (a \cdot m_i + b) \pmod{26}
+\end{equation}
+Decryption is achieved by computing the modular multiplicative inverse $a^{-1} \pmod{26}$:
+\begin{equation}
+    m_i \equiv a^{-1}(c_i - b) \pmod{26}
+\end{equation}
+Because $\gcd(a, 26) = 1$, valid choices for $a$ are $\{1, 3, 5, 7, 9, 11, 15, 17, 19, 21, 23, 25\}$ (12 values), yielding an Affine key space of $12 \times 26 = 312$ keys.
+
+% =========================================================================
+% 3. SYSTEM ARCHITECTURE IN .NET
+% =========================================================================
+\section{Architecture of the .NET Cryptanalysis Tool}
+
+The application was designed as a modern C\# console project targeting \textbf{.NET 10.0}, emphasizing clean architecture, separation of concerns, and interactive terminal visualization.
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=codebg,colframe=codeframe,arc=2mm,title=\textbf{Application Component Structure}]
+\small
+\begin{itemize}
+    \item \textbf{Data Layer} (\texttt{SampleData.cs}): Contains Variant 23 ciphertext (3,073 letters), standard English frequency constants, and n-gram dictionaries.
+    \item \textbf{Models Layer} (\texttt{LetterFrequency.cs}, \texttt{DecryptionKey.cs}): Bidirectional letter mapping storage, collision validation, and statistical containers.
+    \item \textbf{Services Layer}:
+    \begin{itemize}
+        \item \texttt{FrequencyAnalyzer.cs}: Computes letter distributions, $I_C$, and top n-grams (digraphs, trigraphs, doubles).
+        \item \texttt{SubstitutionEngine.cs}: Performs progressive substitution (mapped letters in lowercase, unmapped in uppercase).
+    \end{itemize}
+    \item \textbf{UI Layer} (\texttt{ConsoleVisualizer.cs}, \texttt{UserMenu.cs}): Formatted table rendering, horizontal frequency bar charts, color-coded preview, and interactive REPL.
+\end{itemize}
+\end{tcolorbox}
+\caption{Modular Architecture of the .NET Monoalphabetic Cryptanalysis Suite}
+\label{fig:arch}
+\end{figure}
+
+\subsection{Key Model and Mapping Logic}
+The \texttt{DecryptionKey} class enforces bijective consistency: whenever a ciphertext character $C$ is assigned to plaintext character $p$, any conflicting prior mappings are cleanly decoupled.
+
+\begin{lstlisting}[caption={DecryptionKey Implementation (Excerpt)}]
+public bool SetMapping(char cipherLetter, char plainLetter)
+{
+    char c = char.ToUpperInvariant(cipherLetter);
+    char p = char.ToLowerInvariant(plainLetter);
+
+    if (c < 'A' || c > 'Z' || p < 'a' || p > 'z') return false;
+
+    // Displace previous conflicting mappings to preserve bijectivity
+    if (_plainToCipher.TryGetValue(p, out char oldC) && oldC != c)
+        _cipherToPlain.Remove(oldC);
+
+    if (_cipherToPlain.TryGetValue(c, out char oldP) && oldP != p)
+        _plainToCipher.Remove(oldP);
+
+    _cipherToPlain[c] = p;
+    _plainToCipher[p] = c;
+    return true;
+}
+\end{lstlisting}
+
+% =========================================================================
+% 4. CRYPTANALYSIS OF VARIANT 23
+% =========================================================================
+\section{Cryptanalysis of Assigned Ciphertext (Variant 23)}
+
+\subsection{Statistical Characterization}
+The assigned text for Variant 23 contains a total of $3,073$ alphabetic characters. The computed Index of Coincidence is:
+\begin{equation}
+    I_C = \frac{\sum f_i(f_i - 1)}{3073 \times 3072} \approx 0.0641
+\end{equation}
+This value ($0.0641$) closely aligns with the standard English expectation ($0.0667$), conclusively confirming that the message is encrypted with a monoalphabetic substitution cipher.
+
+\subsection{Ciphertext Frequency Tables}
+
+\begin{table}[h!]
+\centering
+\caption{Observed Ciphertext Frequencies vs. Standard English (Variant 23)}
+\label{tab:v23_freq}
+\small
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+\textbf{Cipher} & \textbf{Count} & \textbf{Cipher (\%)} & \textbf{English Std (\%)} & \textbf{Diff (\%)} & \textbf{Plain Match} \\
+\hline
+A & 62 & 2.02\% & 8.17\% & -6.15\% & \textbf{b} \\
+B & 3 & 0.10\% & 1.49\% & -1.39\% & \textbf{q} \\
+C & 85 & 2.77\% & 2.78\% & -0.01\% & \textbf{f} \\
+D & 68 & 2.21\% & 4.25\% & -2.04\% & \textbf{u} \\
+E & 2 & 0.07\% & 12.70\% & -12.63\% & \textbf{j} \\
+F & 68 & 2.21\% & 2.23\% & -0.02\% & \textbf{y} \\
+G & 211 & 6.87\% & 2.01\% & +4.86\% & \textbf{n} \\
+H & 86 & 2.80\% & 6.09\% & -3.29\% & \textbf{c} \\
+I & 199 & 6.48\% & 6.97\% & -0.49\% & \textbf{r} \\
+J & 89 & 2.90\% & 0.15\% & +2.75\% & \textbf{g} \\
+K & 22 & 0.72\% & 0.77\% & -0.05\% & \textbf{v} \\
+L & 27 & 0.88\% & 4.03\% & -3.15\% & \textbf{k} \\
+M & 7 & 0.23\% & 2.41\% & -2.18\% & \textbf{z} \\
+N & 228 & 7.42\% & 6.75\% & +0.67\% & \textbf{o} \\
+O & 118 & 3.84\% & 7.51\% & -3.67\% & \textbf{d} \\
+P & 164 & 5.34\% & 1.93\% & +3.41\% & \textbf{s} \\
+Q & 182 & 5.92\% & 0.09\% & +5.83\% & \textbf{h} \\
+R & 57 & 1.85\% & 5.99\% & -4.14\% & \textbf{w} \\
+S & 117 & 3.81\% & 6.33\% & -2.52\% & \textbf{l} \\
+T & 247 & 8.04\% & 9.06\% & -1.02\% & \textbf{a} \\
+U & 66 & 2.15\% & 2.76\% & -0.61\% & \textbf{p} \\
+V & 382 & 12.43\% & 0.98\% & +11.45\% & \textbf{e} \\
+W & 288 & 9.37\% & 2.36\% & +7.01\% & \textbf{t} \\
+X & 208 & 6.77\% & 0.15\% & +6.62\% & \textbf{i} \\
+Y & 6 & 0.20\% & 1.97\% & -1.77\% & \textbf{x} \\
+Z & 81 & 2.64\% & 0.07\% & +2.57\% & \textbf{m} \\
+\hline
+\end{tabular}
+\end{table}
+
+Sorting the letters in descending order yields:
+\begin{equation*}
+    \text{\textbf{V}} (12.43\%), \text{\textbf{W}} (9.37\%), \text{\textbf{T}} (8.04\%), \text{\textbf{N}} (7.42\%), \text{\textbf{G}} (6.87\%), \text{\textbf{X}} (6.77\%), \text{\textbf{I}} (6.48\%), \text{\textbf{Q}} (5.92\%), \text{\textbf{P}} (5.34\%) \dots
+\end{equation*}
+
+\subsection{Step-by-Step Linguistic Deduction}
+
+Following the methodical framework demonstrated in Section 2.3 of the laboratory guidelines, substitutions were performed progressively:
+
+\subsubsection{Step 1: Top Single Frequencies and Single-Letter Words}
+Ciphertext character \textbf{V} constitutes $12.43\%$ of all occurrences, precisely matching standard English \textbf{E} ($12.70\%$). \textbf{W} constitutes $9.37\%$, closely mirroring English \textbf{T} ($9.06\%$). \textbf{T} occurs as an isolated single-letter word (\texttt{t htzvit} $\to$ \textit{a camera}), indicating $\textbf{T} \to \text{a}$.
+\begin{itemize}
+    \item Hypotheses: $\textbf{V} \to \text{e}, \quad \textbf{W} \to \text{t}, \quad \textbf{T} \to \text{a}$
+\end{itemize}
+
+\subsubsection{Step 2: Most Frequent 3-Letter Word (\texttt{wqv})}
+The trigraph \texttt{wqv} occurs \textbf{47 times} as a distinct word in the ciphertext. Substituting $W \to \text{t}$ and $V \to \text{e}$ produces \texttt{t * e}. In English syntax, this unambiguously represents the definite article \textbf{the}:
+\begin{itemize}
+    \item Deduction: $\textbf{Q} \to \text{h}$
+\end{itemize}
+
+\subsubsection{Step 3: High-Frequency 2-Letter Words and Conjunctions}
+Analyzing short word distributions reveals:
+\begin{itemize}
+    \item \texttt{tgo} (27 occurrences): With $T \to \text{a}$, the pattern is \texttt{a * *}, matching conjunction \textbf{and}. Thus, $\textbf{G} \to \text{n}$ and $\textbf{O} \to \text{d}$.
+    \item \texttt{nc} (54 occurrences): Represents preposition \textbf{of}, yielding $\textbf{N} \to \text{o}$ and $\textbf{C} \to \text{f}$.
+    \item \texttt{xg} (40 occurrences): Represents preposition \textbf{in}, yielding $\textbf{X} \to \text{i}$.
+    \item \texttt{wn} (36 occurrences): Resolves to \textbf{to}, corroborating $W \to \text{t}$ and $N \to \text{o}$.
+\end{itemize}
+
+\subsubsection{Step 4: Digraphs, Suffixes, and Prepositions}
+\begin{itemize}
+    \item Words ending in \texttt{-xgj} form \texttt{-in*}, matching the participial suffix \textbf{-ing}. Thus, $\textbf{J} \to \text{g}$.
+    \item \texttt{cni} (16 occurrences) corresponds to \texttt{f o *}, yielding preposition \textbf{for} $\implies \textbf{I} \to \text{r}$.
+    \item \texttt{adw} corresponds to \texttt{b * t}, yielding \textbf{but} $\implies \textbf{A} \to \text{b}, \textbf{D} \to \text{u}$.
+    \item \texttt{rtp} corresponds to \texttt{* a s}, yielding \textbf{was} $\implies \textbf{R} \to \text{w}, \textbf{P} \to \text{s}$.
+\end{itemize}
+
+\subsubsection{Step 5: Proper Nouns and Contextual Terms}
+With the primary skeleton established, prominent proper nouns and terminology from the history of cryptology emerge:
+\begin{itemize}
+    \item \texttt{Cixvoztg} $\to$ \texttt{F r i e d * a n} $\implies$ \textbf{Friedman} ($\textbf{Z} \to \text{m}$).
+    \item \texttt{hifuwnsnjxpwp} $\to$ \texttt{* r y * t o l o g i s t s} $\implies$ \textbf{cryptologists} ($\textbf{H} \to \text{c}, \textbf{F} \to \text{y}, \textbf{U} \to \text{p}$).
+    \item \texttt{Vsxmvavwq} $\to$ \texttt{E l i z e b e t h} $\implies$ \textbf{Elizebeth} ($\textbf{S} \to \text{l}, \textbf{M} \to \text{z}$).
+    \item \texttt{Pqtlvpuvtiv} $\to$ \texttt{S * a k e s p e a r e} $\implies$ \textbf{Shakespeare} ($\textbf{L} \to \text{k}$).
+    \item \texttt{Athng} $\to$ \textbf{Bacon}.
+\end{itemize}
+
+\subsubsection{Step 6: Completion of Rare Characters}
+The remaining rare characters resolve through context:
+\begin{itemize}
+    \item $\textbf{K} \to \text{v}$ (\texttt{sxkxgj} $\to$ \textit{living})
+    \item $\textbf{Y} \to \text{x}$ (\texttt{4 Y 7} $\to$ \textit{4 X 7})
+    \item $\textbf{B} \to \text{q}$ (\texttt{qxjq} $\to$ \textit{high})
+    \item $\textbf{E} \to \text{j}$ (\texttt{Enqg} $\to$ \textit{John})
+\end{itemize}
+
+\subsection{Mathematical Verification as an Affine Cipher}
+Testing the recovered character pairs against the affine congruence:
+\begin{equation}
+    C \equiv (a \cdot P + b) \pmod{26}
+\end{equation}
+Using the pairs $(\text{a} = 0 \to \text{T} = 19)$ and $(\text{b} = 1 \to \text{A} = 0)$:
+\begin{align}
+    a \cdot 0 + b &\equiv 19 \pmod{26} \implies b = 19 \\
+    a \cdot 1 + 19 &\equiv 0 \pmod{26} \implies a \equiv -19 \equiv 7 \pmod{26}
+\end{align}
+Because $\gcd(7, 26) = 1$, the transformation is valid. Calculating the decryption multiplier:
+\begin{equation}
+    7 \cdot 15 = 105 = 4 \times 26 + 1 \equiv 1 \pmod{26} \implies a^{-1} = 15
+\end{equation}
+The closed-form decryption formula is:
+\begin{equation}
+    P \equiv 15(C - 19) \pmod{26} \equiv (15C + 1) \pmod{26}
+\end{equation}
+Every letter of the recovered substitution key satisfies this formula without exception.
+
+% =========================================================================
+% 5. RESULTS AND RECONSTRUCTED KEY
+% =========================================================================
+\section{Results and Reconstructed Substitution Key}
+
+\subsection{Reconstructed Alphabet Mapping Table}
+Table~\ref{tab:reconstructed_key} presents the complete recovered substitution alphabet, formatted identically to Table 2.5 of the laboratory guide.
+
+\begin{table}[h!]
+\centering
+\caption{Reconstructed Substitution Key Table (Variant 23)}
+\label{tab:reconstructed_key}
+\small
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{Plain} & a & b & c & d & e & f & g & h & i & j & k & l & m \\
+\hline
+\textbf{Cipher} & \textbf{T} & \textbf{A} & \textbf{H} & \textbf{O} & \textbf{V} & \textbf{C} & \textbf{J} & \textbf{Q} & \textbf{X} & \textbf{E} & \textbf{L} & \textbf{S} & \textbf{Z} \\
+\hline
+\hline
+\textbf{Plain} & n & o & p & q & r & s & t & u & v & w & x & y & z \\
+\hline
+\textbf{Cipher} & \textbf{G} & \textbf{N} & \textbf{U} & \textbf{B} & \textbf{I} & \textbf{P} & \textbf{W} & \textbf{D} & \textbf{K} & \textbf{R} & \textbf{Y} & \textbf{F} & \textbf{M} \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Console Application Execution}
+Below is a reproduction of the terminal session utilizing the interactive manual substitution helper in the .NET environment:
+
+\begin{terminalwindow}
+==============================================================================
+  INTERACTIVE MANUAL SUBSTITUTION REPL
+==============================================================================
+Commands:
+  map <CIPHER> <plain>   : e.g. 'map W t'
+  unmap <CIPHER>         : e.g. 'unmap W'
+  preview                : Show current decrypted text snippet
+  key                    : Show current key mapping table
+  clear                  : Reset all mappings
+  exit                   : Return to main menu
+
+repl> map W t
+Mapped Cipher 'W' -> Plain 't'. Total mapped: 1/26
+repl> map V e
+Mapped Cipher 'V' -> Plain 'e'. Total mapped: 2/26
+repl> map T a
+Mapped Cipher 'T' -> Plain 'a'. Total mapped: 3/26
+repl> map Q h
+Mapped Cipher 'Q' -> Plain 'h'. Total mapped: 4/26
+repl> preview
+
+--- Partially Decrypted Text Preview ---
+CIXeOZaG OXO PNZe JeGetXHP RNIL CNI hXZ, ADt, AeHaDPe he RaP haGOFRXth a HaZeIa,
+he heSUeO the HIFUtNSNJXPtP RhN ReIe SNNLXGJ CNI AaHNG'PHXUheI PXJGatDIeP XG PhaLePUeaIe
+... [preview truncated] ...
+\end{terminalwindow}
+
+\subsection{Full Decrypted Plaintext Message}
+The recovered original text reads as follows:
+
+\begin{quote}
+\small
+Friedman did some genetics work for him, but, because he was handy with a camera, he helped the cryptologists who were looking for Bacon's cipher signatures in Shakespeare by making photographic enlargements of the Elizabethan printing that figured in the work. The Department of Ciphers of the Riverbank Laboratories consisted of 14 or 15 high-school and college graduates who assigned the individual letters in these Elizabethan texts to one or the other of two fonts of type as part of the Baconian search. Fabyan gave them their living plus a salary of about \$50 a month. The staff was fed and housed in Engledew and Hoover Cottages, the cipher laboratories taking up the first floor of Engledew. The young woman who collated the work of many of the other staff members was Elizebeth Smith. She had been born August 26, 1892, in Huntington, Indiana, the youngest of the nine children of John M. Smith, a dairyman, banker, and county Republican committeeman, and his wife, Sopha, who spelled her daughter's Christian name with an e instead of an a in the middle because she was not going to have anyone calling her child ``Eliza.'' After completing high school in Huntington, Elizebeth attended Wooster College briefly but was graduated from Hillsdale College in Michigan where she had majored in English. While working at the Newberry Library in Chicago, she was recruited by Fabyan and began work there in 1916. Neither she nor Friedman had given any particular previous thought to cryptology, but they began to get personally interested in the work. It is yet another of the ironies of cryptologic history that the interest of two foremost cryptologists was aroused by a false doctrine---a doctrine, moreover, against which they later were to wage a lifetime battle. For at table at the Riverbank cottages they heard gaudy tales of lusty Elizabethan life, of the not-so-Virgin Queen, of courtiers' intrigues and the secret histories of the great names of English history---all actually invalid decipherments of Shakespeare's plays tending to prove that Bacon had written them, related by the gentle, upright, but self-deluded woman who had ``deciphered'' them, Mrs. Elizabeth Wells Gallup. These stories stirred Friedman's dormant interest; he began to do some of the cryptology, and inevitably its puissant magic seeped like the fume of poppies into his mind and spirit and intoxicated him. ``When it came to the cryptology,'' he recalled years later, ``something in me found an outlet.'' An understatement. He soon found himself head of the Department of Ciphers as well as the Department of Genetics at Riverbank. The attraction he felt for cryptology was reinforced by the attraction he felt for a cryptologist: the quick-witted and sprightly Miss Smith. In May of 1917 they were married and started the most famous husband-and-wife team in the history of cryptology. America had declared war a month before, and Riverbank, which had the only going cryptologic concern in the country, began getting, on an informal basis, cryptograms for solution from various government bureaus. Probably the most important were messages to and from a ring of 125 Hindus who, with German aid, were taking advantage of England's preoccupation in Europe to strike for Indian independence. The intercepts were given to Friedman for solution, and he quickly solved the number cipher used in cablegrams to Berlin. The letters of the plaintext and of the key word were transformed into digits by means of a 4 X 7 checkerboard with a normal alphabet; the key digits were then added to those of the plaintext to form the ciphertext. One key was LAMP. Each agent had his own key, but Friedman had no trouble in solving them. Nor was he stumped by a system usually regarded by amateurs as the ne plus ultra of cryptographic security: a book cipher.
+\end{quote}
+
+% =========================================================================
+% 6. CONCLUSION
+% =========================================================================
+\section{Conclusion}
+
+Through this laboratory work, the fundamental security weakness of monoalphabetic substitution ciphers was systematically demonstrated. Although the theoretical key space of arbitrary monoalphabetic substitutions is immense ($26! \approx 4.03 \times 10^{26}$), it affords no practical security against statistical cryptanalysis:
+\begin{enumerate}
+    \item \textbf{Statistical Preservation:} A bijective monoalphabetic mapping preserves the frequency distribution of individual characters, digrams, trigrams, and word patterns.
+    \item \textbf{Index of Coincidence:} An observed $I_C \approx 0.0641$ reliably confirmed monoalphabetic encipherment prior to key reconstruction.
+    \item \textbf{Heuristic and Mathematical Synergy:} Iterative linguistic deduction successfully mapped high-frequency vowels and consonants, subsequently revealing that the cipher was an Affine transformation $C \equiv (7P + 19) \pmod{26}$.
+    \item \textbf{Software Architecture in .NET:} The developed C\# solution demonstrated how object-oriented modular design allows interactive cryptanalysis, statistical evaluation, and automated verification within a unified console environment.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{kahn1996}
+David Kahn, \textit{The Codebreakers: The Story of Secret Writing}, Scribner, 1996.
+\bibitem{stallings2017}
+William Stallings, \textit{Cryptography and Network Security: Principles and Practice}, 7th Edition, Pearson, 2017.
+\bibitem{friedman1922}
+William F. Friedman, \textit{The Index of Coincidence and Its Applications in Cryptanalysis}, Riverbank Publication No. 22, 1922.
+\end{thebibliography}
+
+\end{document}
