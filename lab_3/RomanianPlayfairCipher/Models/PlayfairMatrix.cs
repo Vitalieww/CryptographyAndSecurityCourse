@@ -4,16 +4,15 @@ namespace RomanianPlayfairCipher.Models
 {
     public class PlayfairMatrix
     {
-        // TODO: Define the 6x5 matrix structure and position mappings
-        private const int Row = 6;
-        private const int Col = 5;
+        public const int Row = 6;
+        public const int Col = 5;
         char[,] matrix = new char[Row, Col];
 
         private readonly Dictionary<char, (int Row, int Col)> lookupDict = [];
 
-        string romanianAlphabet = "AĂÂBCDEFGHIÎKLMNOPQRSȘTȚUVWXYZ";
+        string romanianAlphabet = "AĂÂBCDEFGHIÎKLMNOPQRSȘTȚUVWXYZ"; // without J
 
-        PlayfairMatrix(string key)
+        public PlayfairMatrix(string key)
         {
             key = key.ToUpper()
                 .Replace('J', 'I')
@@ -24,7 +23,7 @@ namespace RomanianPlayfairCipher.Models
 
             foreach (char c in key)
             {
-                if (!seen.Contains(c))
+                if (romanianAlphabet.Contains(c) && !seen.Contains(c))
                 {
                     seen.Add(c);
                     result.Append(c);
@@ -54,5 +53,30 @@ namespace RomanianPlayfairCipher.Models
             }
         }
 
+        public (int Row, int Col) GetPosition(char c)
+        {
+            return lookupDict[c];
+        }
+        public char GetChar(int row, int col)
+        {
+            return matrix[row, col];
+        }
+
+        public void Display()
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            for (int i = 0; i < rows; i++)
+            {
+                Console.Write("[ ");
+                for (int j = 0; j < cols; j++)
+                {
+                    // Format each number with a fixed width (e.g., 6 spaces) for alignment
+                    Console.Write($"{matrix[i, j],6} ");
+                }
+                Console.WriteLine(" ]");
+            }
+        }
     }
 }
