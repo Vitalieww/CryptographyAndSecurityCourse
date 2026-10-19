@@ -1,6 +1,5 @@
 public static class AlphabetConfig
 {
-    // The standard 31-letter Romanian alphabet
     public const string RomanianAlphabet = "AĂÂBCDEFGHIÎKLMNOPQRSȘTȚUVWXYZ";
 
     public static string Normalize(string text)
