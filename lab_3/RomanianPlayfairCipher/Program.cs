@@ -11,7 +11,7 @@ namespace RomanianPlayfairCipher
 
             UserMenu menu = new();
 
-            // menu.Display();
+            menu.Display();
         }
     }
 }

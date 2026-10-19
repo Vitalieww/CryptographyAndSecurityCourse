@@ -6,13 +6,8 @@ namespace RomanianPlayfairCipher.Services
 {
     public class PlayfairCipher
     {
-        public List<(char, char)> PrepareText(string cleanText)
+        public static List<(char, char)> PrepareText(string cleanText)
         {
-            cleanText = cleanText.ToUpper()
-                .Replace('J', 'I')
-                .Replace('Ş', 'Ș')
-                .Replace('Ţ', 'Ț')
-                .Replace(" ", string.Empty);
             int i = 0;
             List<(char, char)> pairs = [];
             while (i < cleanText.Length)
@@ -53,7 +48,7 @@ namespace RomanianPlayfairCipher.Services
             }
             return pairs;
         }
-        public string Encrypt(string plainText, PlayfairMatrix matrix)
+        public static string Encrypt(string plainText, PlayfairMatrix matrix)
         {
             List<(char, char)> preparedText = PrepareText(plainText);
             StringBuilder cipheredChars = new();
@@ -95,24 +90,18 @@ namespace RomanianPlayfairCipher.Services
             return cipheredChars.ToString();
         }
 
-        public string Decrypt(string cipheredText, PlayfairMatrix matrix)
+        public static string Decrypt(string cipheredText, PlayfairMatrix matrix)
         {
-            string cleanCipher = cipheredText.ToUpper()
-                .Replace('J', 'I')
-                .Replace('Ş', 'Ș')
-                .Replace('Ţ', 'Ț')
-                .Replace(" ", string.Empty);
-
-            if (cleanCipher.Length % 2 != 0)
+            if (cipheredText.Length % 2 != 0)
             {
                 throw new ArgumentException("Ciphered text must have an even amount of characters.");
             }
 
             StringBuilder unchipheredText = new();
-            for (int i = 0; i < cleanCipher.Length; i += 2)
+            for (int i = 0; i < cipheredText.Length; i += 2)
             {
-                char c1 = cleanCipher[i];
-                char c2 = cleanCipher[i + 1];
+                char c1 = cipheredText[i];
+                char c2 = cipheredText[i + 1];
 
                 var (r1, col1) = matrix.GetPosition(c1);
                 var (r2, col2) = matrix.GetPosition(c2);

@@ -10,27 +10,21 @@ namespace RomanianPlayfairCipher.Models
 
         private readonly Dictionary<char, (int Row, int Col)> lookupDict = [];
 
-        string romanianAlphabet = "AĂÂBCDEFGHIÎKLMNOPQRSȘTȚUVWXYZ"; // without J
-
         public PlayfairMatrix(string key)
         {
-            key = key.ToUpper()
-                .Replace('J', 'I')
-                .Replace('Ş', 'Ș')
-                .Replace('Ţ', 'Ț');
             StringBuilder result = new();
             HashSet<char> seen = [];
 
             foreach (char c in key)
             {
-                if (romanianAlphabet.Contains(c) && !seen.Contains(c))
+                if (!seen.Contains(c))
                 {
                     seen.Add(c);
                     result.Append(c);
                 }
             }
 
-            foreach (char c in romanianAlphabet)
+            foreach (char c in AlphabetConfig.RomanianAlphabet)
             {
                 if (!seen.Contains(c))
                 {
@@ -62,7 +56,7 @@ namespace RomanianPlayfairCipher.Models
             return matrix[row, col];
         }
 
-        public void Display()
+        public void DisplayMatrix()
         {
             int rows = matrix.GetLength(0);
             int cols = matrix.GetLength(1);
