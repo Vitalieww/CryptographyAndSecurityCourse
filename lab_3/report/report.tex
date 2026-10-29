@@ -1,0 +1,666 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[many]{tcolorbox}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+% --- Page Setup ---
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% --- Custom Colors ---
+\definecolor{primary}{RGB}{18, 52, 86}
+\definecolor{secondary}{RGB}{41, 128, 185}
+\definecolor{accent}{RGB}{231, 76, 60}
+\definecolor{codebg}{RGB}{247, 249, 250}
+\definecolor{codeframe}{RGB}{209, 213, 219}
+\definecolor{codegreen}{RGB}{39, 136, 60}
+\definecolor{codepurple}{RGB}{137, 89, 168}
+\definecolor{codegray}{RGB}{108, 117, 125}
+\definecolor{termbg}{RGB}{0, 0, 0}
+\definecolor{termfg}{RGB}{255, 255, 255}
+\definecolor{termgreen}{RGB}{80, 250, 123}
+\definecolor{termred}{RGB}{255, 85, 85}
+\definecolor{termyellow}{RGB}{241, 250, 140}
+\definecolor{termcyan}{RGB}{139, 233, 253}
+
+% --- Romanian Character Literate for Listings ---
+\lstset{
+    extendedchars=true,
+    literate=%
+        {ă}{{\u{a}}}1
+        {Ă}{{\u{A}}}1
+        {â}{{\^a}}1
+        {Â}{{\^A}}1
+        {î}{{\^\i}}1
+        {Î}{{\^I}}1
+        {ș}{{\c{s}}}1
+        {Ș}{{\c{S}}}1
+        {ț}{{\c{t}}}1
+        {Ț}{{\c{T}}}1
+        {ş}{{\c{s}}}1
+        {Ş}{{\c{S}}}1
+        {ţ}{{\c{t}}}1
+        {Ţ}{{\c{T}}}1
+}
+
+% --- Listings Setup ---
+\lstset{
+    language=[Sharp]C,
+    backgroundcolor=\color{codebg},
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{secondary}\bfseries,
+    stringstyle=\color{codegreen},
+    commentstyle=\color{codegray}\itshape,
+    numberstyle=\tiny\color{codegray},
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    rulecolor=\color{codeframe},
+    captionpos=b,
+    keepspaces=true
+}
+
+\tcbuselibrary{listings,skins}
+
+% --- Terminal Box Setup ---
+\newtcblisting{terminalwindow}[1][]{%
+    enhanced,
+    colback=black,
+    colframe=black,
+    arc=2.5mm,
+    boxrule=1pt,
+    title={\textcolor{termred}{$\bullet$}\;\textcolor{termyellow}{$\bullet$}\;\textcolor{termgreen}{$\bullet$}\quad \textsf{\bfseries Console Terminal Session}},
+    fonttitle=\small\sffamily\bfseries,
+    coltitle=white,
+    attach boxed title to top left={yshift=-2mm, xshift=4mm},
+    boxed title style={colback=gray!15!black, arc=1.5mm, boxrule=0.5pt},
+    listing only,
+    listing options={
+        backgroundcolor=\color{black},
+        basicstyle=\small\ttfamily\color{white},
+        frame=none,
+        numbers=none,
+        breaklines=true,
+        tabsize=4,
+        showspaces=false,
+        showstringspaces=false,
+        extendedchars=true,
+        literate=%
+            {ă}{{\u{a}}}1
+            {Ă}{{\u{A}}}1
+            {â}{{\^a}}1
+            {Â}{{\^A}}1
+            {î}{{\^\i}}1
+            {Î}{{\^I}}1
+            {ș}{{\c{s}}}1
+            {Ș}{{\c{S}}}1
+            {ț}{{\c{t}}}1
+            {Ț}{{\c{T}}}1
+            {ş}{{\c{s}}}1
+            {Ş}{{\c{S}}}1
+            {ţ}{{\c{t}}}1
+            {Ţ}{{\c{T}}}1
+    },
+    #1
+}
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    citecolor=secondary,
+    urlcolor=secondary
+}
+
+% --- Headers & Footers ---
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-3pt}
+\fancyhead[L]{\small\textsf{Laboratory Work No. 3 --- Cryptography \& Information Security}}
+\fancyhead[R]{\small\textsf{Vitalie Vasilean}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Macros ---
+\newcommand{\studentgroup}{FAF-241}
+
+\begin{document}
+
+% =========================================================================
+% TITLE PAGE
+% =========================================================================
+\begin{titlepage}
+    \centering
+    {\large \textbf{TECHNICAL UNIVERSITY OF MOLDOVA}}\\[0.2cm]
+    {\large Faculty of Computers, Informatics and Microelectronics}\\[0.2cm]
+    {\large Department of Software Engineering and Automatics}\\[0.8cm]
+
+    \includegraphics[width=3.5cm]{figures/utm_logo.png}\\[1.2cm]
+
+    {\Large \textbf{LABORATORY WORK NO. 3}}\\[0.4cm]
+    {\LARGE \textbf{Polyalphabetic Ciphers: Playfair Cipher for the Romanian Language}}\\[0.4cm]
+    {\large Course: Cryptography and Information Security}\\[2.5cm]
+
+    \begin{minipage}{0.45\textwidth}
+        \flushleft
+        \textbf{Author:}\\
+        Vitalie \textsc{Vasilean}\\
+        Student of group: \studentgroup
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \flushright
+        \textbf{Verified by:}\\
+        Lecturer / Supervisor\\
+        Maia Zaica
+    \end{minipage}
+
+    \vfill
+    {\large Chișinău --- 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+% 1. INTRODUCTION AND OBJECTIVES
+% =========================================================================
+\section{Introduction and Laboratory Objectives}
+
+Monoalphabetic substitution ciphers suffer from an inherent cryptographic flaw: they preserve the underlying unigram frequency distribution of the natural language alphabet. An adversary analyzing a sufficiently long ciphertext can effortlessly break the cipher by mapping frequent ciphertext letters directly to frequent plaintext letters. 
+
+To counteract statistical frequency cryptanalysis, historical cryptologists introduced \textbf{polyalphabetic substitution ciphers} and \textbf{polygraphic substitution ciphers}. Polygraphic ciphers, such as the Playfair cipher invented by Sir Charles Wheatstone in 1854 and popularized by Lord Lyon Playfair, replace groups of letters (digraphs) simultaneously rather than substituting single symbols individually. By operating across pairs of characters, the Playfair cipher flattens the frequency distribution: instead of analyzing $26$ or $31$ individual letter frequencies, an attacker is confronted with $26^2 = 676$ (or $30^2 = 900$) distinct digraphic combinations.
+
+The primary objectives of this laboratory work (specifically addressing \textbf{Task 3.1}) are:
+\begin{enumerate}
+    \item \textbf{Study polyalphabetic and digraphic substitution principles}, analyzing how pair-wise substitution obscures statistical traits and increases cryptographic resilience.
+    \item \textbf{Adapt the Playfair cipher to the Romanian language}, which features $31$ standard characters ($A-Z$ and $5$ diacritics: Ă, Â, Î, Ș, Ț).
+    \item \textbf{Formulate and construct a $6 \times 5$ cryptographic matrix}, resolving the alphabet dimension mismatch by merging $J \to I$, yielding exactly $30$ cells.
+    \item \textbf{Implement a robust C\# (.NET 10.0) software suite} adhering to clean architecture principles (\texttt{Models}, \texttt{Services}, and \texttt{UI}), featuring:
+    \begin{itemize}
+        \item Key validation enforcing a minimum length of $7$ characters ($|K| \ge 7$).
+        \item Character set validation limiting inputs to the Romanian alphabet ($A-Z, a-z$, Ă, Â, Î, Ș, Ț) and providing descriptive user feedback.
+        \item Automatic cedilla normalization ($\text{ş/ţ} \to \text{ș/ț}$) and case normalization.
+        \item Digraph splitting logic with automatic filler insertion ($X$, and $Z$ when colliding with $X$) for identical adjacent characters and lonely terminal characters.
+        \item Forward (encryption) and backward (decryption) cyclic shift transformations across rows, columns, and rectangles.
+    \end{itemize}
+    \item \textbf{Verify cryptographic correctness} through rigorous empirical test runs, demonstrating round-trip consistency between plaintext, ciphertext, and deciphered output.
+\end{enumerate}
+
+% =========================================================================
+% 2. THEORETICAL FOUNDATIONS
+% =========================================================================
+\section{Theoretical Foundations}
+
+\subsection{Monoalphabetic vs. Polygraphic Substitution}
+In a classical monoalphabetic substitution over alphabet $\Sigma$, a static bijective permutation $\pi: \Sigma \to \Sigma$ is applied character by character:
+\begin{equation}
+    c_i = \pi(m_i), \quad \forall i \in \{0, 1, \dots, L-1\}
+\end{equation}
+Because this mapping is memoryless and position-independent, the probability distribution is completely invariant:
+\begin{equation}
+    \mathbb{P}(C = \pi(x)) = \mathbb{P}(M = x)
+\end{equation}
+
+In contrast, the \textbf{Playfair cipher} operates as a digraphic substitution cipher over $\Sigma^2$. Plaintext $m$ is partitioned into consecutive pairs of characters:
+\begin{equation}
+    m = (m_0, m_1), (m_2, m_3), \dots, (m_{2k}, m_{2k+1})
+\end{equation}
+Each digram $(m_{2i}, m_{2i+1})$ is transformed into a ciphertext digram $(c_{2i}, c_{2i+1})$ according to geometric coordinates within an encryption grid $\mathcal{M}$. Because a given letter is encrypted differently depending on its partner in the digram, the single-letter frequency distribution is substantially flattened, rendering simple frequency analysis ineffective.
+
+\subsection{Romanian Alphabet Integration and Matrix Geometry}
+The standard Romanian alphabet consists of $N = 31$ letters:
+\begin{align*}
+    \Sigma_{\text{RO}} = \{ & \text{A, Ă, Â, B, C, D, E, F, G, H, I, Î, J, K, L, M,} \\
+                            & \text{N, O, P, Q, R, S, Ș, T, Ț, U, V, W, X, Y, Z} \}
+\end{align*}
+
+In the traditional English Playfair cipher, the $26$ letters of the Latin alphabet are arranged in a $5 \times 5 = 25$ grid by merging $I$ and $J$. For the Romanian language:
+\begin{itemize}
+    \item A matrix of size $6 \times 5$ (or $5 \times 6$) yields $6 \times 5 = 30$ cells.
+    \item Following the established Playfair convention (as detailed in the laboratory guideline), the letter \textbf{J} is replaced by \textbf{I} in the plaintext, reducing the alphabet to exactly $30$ unique symbols:
+    \begin{equation}
+        |\Sigma_{\text{RO}} \setminus \{J\}| = 31 - 1 = 30
+    \end{equation}
+    \item These $30$ letters fit into a $6 \times 5$ matrix without empty cells or extraneous padding symbols.
+\end{itemize}
+
+\subsection{Matrix Construction Algorithm}
+Let $K = (k_0, k_1, \dots, k_{p-1})$ denote the secret key phrase. The encryption matrix $\mathcal{M} \in \Sigma^{6 \times 5}$ is constructed as follows:
+\begin{enumerate}
+    \item Normalize $K$: convert all characters to uppercase, replace all occurrences of $J$ with $I$, and normalize cedillas ($\text{ş} \to \text{ș}, \text{ţ} \to \text{ț}$).
+    \item Extract unique characters from $K$ in order of their first appearance, discarding duplicate occurrences:
+    \begin{equation}
+        K_{\text{dedup}} = \text{Unique}(K)
+    \end{equation}
+    \item Append all remaining letters of $\Sigma_{\text{RO}} \setminus \{J\}$ in standard alphabetical order that were not present in $K_{\text{dedup}}$.
+    \item Populate $\mathcal{M}$ row by row from top-left $(0, 0)$ to bottom-right $(5, 4)$:
+    \begin{equation}
+        \mathcal{M}[i, j] = \text{Alphabet}_{\text{combined}}[i \times 5 + j], \quad i \in \{0, \dots, 5\}, \; j \in \{0, \dots, 4\}
+    \end{equation}
+\end{enumerate}
+
+\subsection{Digraph Preparation Rules}
+Plaintext messages cannot be fed directly into the geometric substitution stage without preprocessing:
+\begin{enumerate}
+    \item \textbf{Preprocessing:} Spaces and punctuation are stripped; all characters are uppercased; $J$ is mapped to $I$.
+    \item \textbf{Duplicate Avoidance within a Pair:} If two identical characters occur within the same digram $(m_i = m_{i+1})$, a filler character (conventionally \textbf{X}) is inserted between them. If the character itself is $X$, the alternate filler \textbf{Z} is used:
+    \begin{equation}
+        (m_i, m_i) \longrightarrow (m_i, X), \quad \text{and } m_{i+1} \text{ begins the next pair}
+    \end{equation}
+    \item \textbf{Odd-Length Padding:} If the resulting sequence has an odd number of characters after resolving duplicates, a trailing filler (\textbf{X}, or \textbf{Z} if terminal is $X$) is appended to complete the final digram.
+\end{enumerate}
+
+\subsection{Geometric Substitution Rules}
+Let $(c_1, c_2)$ denote the output of encrypting digram $(m_1, m_2)$. Let the coordinates in $\mathcal{M}$ be:
+\begin{equation}
+    \text{Pos}(m_1) = (r_1, col_1), \quad \text{Pos}(m_2) = (r_2, col_2)
+\end{equation}
+
+\subsubsection{Encryption Rules}
+\begin{itemize}
+    \item \textbf{Rule 1 (Same Row, $r_1 = r_2$):} Shift cyclically to the right by $1$ column:
+    \begin{equation}
+        c_1 = \mathcal{M}[r_1, (col_1 + 1) \bmod 5], \quad c_2 = \mathcal{M}[r_2, (col_2 + 1) \bmod 5]
+    \end{equation}
+    \item \textbf{Rule 2 (Same Column, $col_1 = col_2$):} Shift cyclically downward by $1$ row:
+    \begin{equation}
+        c_1 = \mathcal{M}[(r_1 + 1) \bmod 6, col_1], \quad c_2 = \mathcal{M}[(r_2 + 1) \bmod 6, col_2]
+    \end{equation}
+    \item \textbf{Rule 3 (Rectangle, $r_1 \ne r_2 \land col_1 \ne col_2$):} Form the bounding rectangle and swap columns (retain row, take counterpart's column):
+    \begin{equation}
+        c_1 = \mathcal{M}[r_1, col_2], \quad c_2 = \mathcal{M}[r_2, col_1]
+    \end{equation}
+\end{itemize}
+
+\subsubsection{Decryption Rules}
+Decryption applies the exact inverse geometric transformations:
+\begin{itemize}
+    \item \textbf{Same Row ($r_1 = r_2$):} Shift cyclically to the left by $1$ column:
+    \begin{equation}
+        m_1 = \mathcal{M}[r_1, (col_1 - 1 + 5) \bmod 5], \quad m_2 = \mathcal{M}[r_2, (col_2 - 1 + 5) \bmod 5]
+    \end{equation}
+    \item \textbf{Same Column ($col_1 = col_2$):} Shift cyclically upward by $1$ row:
+    \begin{equation}
+        m_1 = \mathcal{M}[(r_1 - 1 + 6) \bmod 6, col_1], \quad m_2 = \mathcal{M}[(r_2 - 1 + 6) \bmod 6, col_2]
+    \end{equation}
+    \item \textbf{Rectangle ($r_1 \ne r_2 \land col_1 \ne col_2$):} Identical to encryption:
+    \begin{equation}
+        m_1 = \mathcal{M}[r_1, col_2], \quad m_2 = \mathcal{M}[r_2, col_1]
+    \end{equation}
+\end{itemize}
+
+\subsection{Key Space Complexity}
+The total theoretical key space of a $6 \times 5$ Playfair matrix corresponds to all possible permutations of $30$ distinct symbols:
+\begin{equation}
+    |\mathcal{K}| = 30! \approx 2.6525 \times 10^{32}
+\end{equation}
+Even after accounting for cyclic row and column shift equivalences and matrix transpositions (which reduce the number of cryptographically distinct grids by a factor of $6 \times 5 \times 2 = 60$), the effective key space remains approximately:
+\begin{equation}
+    |\mathcal{K}_{\text{eff}}| = \frac{30!}{60} \approx 4.42 \times 10^{30}
+\end{equation}
+This renders exhaustive brute-force searching entirely impossible by manual or computerized brute-force means.
+
+% =========================================================================
+% 3. SYSTEM ARCHITECTURE IN .NET
+% =========================================================================
+\section{Architecture of the .NET Solution}
+
+The application was engineered in \textbf{C\# (.NET 10.0)} following modern object-oriented software engineering principles. The solution is structured into distinct architectural layers: \texttt{Models}, \texttt{Services}, and \texttt{UI}.
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=codebg,colframe=codeframe,arc=2mm,title=\textbf{Architectural Decomposition of RomanianPlayfairCipher}]
+\small
+\begin{itemize}
+    \item \textbf{Models Layer} (\texttt{PlayfairMatrix.cs}):
+    \begin{itemize}
+        \item Encapsulates the $6 \times 5$ two-dimensional grid \texttt{char[6, 5]}.
+        \item Maintains an auxiliary coordinate dictionary \texttt{Dictionary<char, (int Row, int Col)>} providing $\mathcal{O}(1)$ position lookup during transformation.
+        \item Handles key deduplication and alphabet completion.
+        \item Exposes formatted grid visualization via \texttt{DisplayMatrix()}.
+    \end{itemize}
+    \item \textbf{Services Layer}:
+    \begin{itemize}
+        \item \texttt{AlphabetConfig.cs}: Acts as the single source of truth for the Romanian alphabet, diacritic normalization ($\text{ş} \to \text{ș}, \text{ţ} \to \text{ț}$), $J \to I$ replacement, and validation predicates (\texttt{IsValidKey}, \texttt{IsValidMessage}).
+        \item \texttt{PlayfairCipher.cs}: Implements stateless core cryptographic operations: non-overlapping digram preparation (\texttt{PrepareText}), forward encryption (\texttt{Encrypt}), and inverse decryption (\texttt{Decrypt}).
+    \end{itemize}
+    \item \textbf{UI Layer} (\texttt{UserMenu.cs}):
+    \begin{itemize}
+        \item Console interactive menu coordinating encryption and decryption workflows.
+        \item Input reading loops with immediate validation feedback for key length ($\ge 7$) and allowed characters.
+        \item Formatted output display.
+    \end{itemize}
+    \item \textbf{Application Bootstrap} (\texttt{Program.cs}):
+    \begin{itemize}
+        \item Initializes console I/O encodings to \texttt{System.Text.Encoding.UTF8} to guarantee proper terminal rendering of Romanian diacritics.
+    \end{itemize}
+\end{itemize}
+\end{tcolorbox}
+\caption{Modular Architecture of the Romanian Playfair Cipher System}
+\label{fig:architecture}
+\end{figure}
+
+\subsection{Playfair Matrix Model}
+Listing~\ref{lst:matrix} displays the constructor of \texttt{PlayfairMatrix.cs}, illustrating how the key is processed and mapped to coordinates.
+
+\begin{lstlisting}[caption={PlayfairMatrix Constructor and Mapping Logic}, label={lst:matrix}]
+public class PlayfairMatrix
+{
+    public const int Row = 6;
+    public const int Col = 5;
+    char[,] matrix = new char[Row, Col];
+    private readonly Dictionary<char, (int Row, int Col)> lookupDict = [];
+
+    public PlayfairMatrix(string key)
+    {
+        StringBuilder result = new();
+        HashSet<char> seen = [];
+
+        // 1. Insert unique characters from normalized key
+        foreach (char c in key)
+        {
+            if (!seen.Contains(c))
+            {
+                seen.Add(c);
+                result.Append(c);
+            }
+        }
+
+        // 2. Append remaining Romanian alphabet characters (30 chars, no J)
+        foreach (char c in AlphabetConfig.RomanianAlphabet)
+        {
+            if (!seen.Contains(c))
+            {
+                seen.Add(c);
+                result.Append(c);
+            }
+        }
+
+        // 3. Populate 2D grid and lookup dictionary
+        int currentChrIndx = 0;
+        for (int i = 0; i < Row; i++)
+        {
+            for (int j = 0; j < Col; j++)
+            {
+                char ch = result[currentChrIndx++];
+                matrix[i, j] = ch;
+                lookupDict[ch] = (i, j);
+            }
+        }
+    }
+}
+\end{lstlisting}
+
+\subsection{Digraph Preparation and Encryption Engine}
+Listing~\ref{lst:cipher} showcases the non-overlapping pair preparation loop and the geometric encryption algorithm in \texttt{PlayfairCipher.cs}.
+
+\begin{lstlisting}[caption={Text Preparation and Encryption in PlayfairCipher.cs}, label={lst:cipher}]
+public static List<(char, char)> PrepareText(string cleanText)
+{
+    int i = 0;
+    List<(char, char)> pairs = [];
+    while (i < cleanText.Length)
+    {
+        char first = cleanText[i];
+        if (i == cleanText.Length - 1) // Lonely terminal character
+        {
+            pairs.Add((first, first == 'X' ? 'Z' : 'X'));
+            i++;
+        }
+        else if (first == cleanText[i + 1]) // Double identical characters in pair
+        {
+            pairs.Add((first, first == 'X' ? 'Z' : 'X'));
+            i++; // Advance by 1: second character starts the next pair
+        }
+        else // Distinct character pair
+        {
+            pairs.Add((first, cleanText[i + 1]));
+            i += 2; // Advance by 2: both characters consumed
+        }
+    }
+    return pairs;
+}
+
+public static string Encrypt(string plainText, PlayfairMatrix matrix)
+{
+    List<(char, char)> preparedText = PrepareText(plainText);
+    StringBuilder cipheredChars = new();
+
+    foreach ((char c1, char c2) in preparedText)
+    {
+        var (r1, col1) = matrix.GetPosition(c1);
+        var (r2, col2) = matrix.GetPosition(c2);
+
+        char newLetter1, newLetter2;
+        if (r1 == r2) // Same row: shift right
+        {
+            newLetter1 = matrix.GetChar(r1, (col1 + 1) % PlayfairMatrix.Col);
+            newLetter2 = matrix.GetChar(r2, (col2 + 1) % PlayfairMatrix.Col);
+        }
+        else if (col1 == col2) // Same col: shift down
+        {
+            newLetter1 = matrix.GetChar((r1 + 1) % PlayfairMatrix.Row, col1);
+            newLetter2 = matrix.GetChar((r2 + 1) % PlayfairMatrix.Row, col2);
+        }
+        else // Rectangle: swap columns
+        {
+            newLetter1 = matrix.GetChar(r1, col2);
+            newLetter2 = matrix.GetChar(r2, col1);
+        }
+        cipheredChars.Append(newLetter1).Append(newLetter2);
+    }
+    return cipheredChars.ToString();
+}
+\end{lstlisting}
+
+% =========================================================================
+% 4. IMPLEMENTATION DETAILS
+% =========================================================================
+\section{Implementation Details and Algorithmic Analysis}
+
+\subsection{Handling Diacritics and Unicode Compatibility}
+A key technical challenge when targeting the Romanian alphabet in Windows console applications is encoding distortion. By default, legacy Windows Command Prompt and PowerShell hosts operate under code page $850$ or $1252$, causing Romanian characters such as \texttt{Ă}, \texttt{Î}, \texttt{Ș}, and \texttt{Ț} to render as replacement markers (\texttt{?}).
+
+To resolve this issue, \texttt{Program.cs} explicitly configures console input and output encodings at application start:
+\begin{lstlisting}[numbers=none]
+Console.InputEncoding = System.Text.Encoding.UTF8;
+Console.OutputEncoding = System.Text.Encoding.UTF8;
+\end{lstlisting}
+
+Furthermore, \texttt{AlphabetConfig.Normalize()} automatically standardizes legacy Romanian cedilla characters (\texttt{Ş}, \texttt{Ţ}) into the Unicode standard comma-below diacritics (\texttt{Ș}, \texttt{Ț}) specified by ISO/IEC 8859-16 and modern typography.
+
+\subsection{Circular Shift Arithmetic and Negative Modulo Prevention}
+In C\#, the \texttt{\%} operator computes the remainder of integer division rather than the true Euclidean modulo. For a negative dividend, \texttt{-1 \% 5} evaluates to \texttt{-1} rather than \texttt{4}. When performing leftward (row) and upward (column) cyclic shifts during decryption, a naive decrement would produce negative array indices and cause runtime \texttt{IndexOutOfRangeException} crashes.
+
+To ensure positive Euclidean indexing without branching statements, the dimension offset is added before modulo evaluation:
+\begin{equation}
+    \text{col}_{\text{new}} = (col - 1 + \text{Cols}) \bmod \text{Cols}
+\end{equation}
+\begin{equation}
+    \text{row}_{\text{new}} = (row - 1 + \text{Rows}) \bmod \text{Rows}
+\end{equation}
+This guarantees that wrap-around from column $0$ to column $4$ and row $0$ to row $5$ operates smoothly.
+
+\subsection{Non-Overlapping Digram Splitting Mechanics}
+A crucial insight in the implementation of \texttt{PrepareText()} is index advancement. If two adjacent characters match (e.g., \texttt{LL} in \texttt{HELLO}), inserting an $X$ resolves the collision. Crucially, the pointer must only increment by $1$ ($i \leftarrow i + 1$). The second letter $L$ is not discarded; rather, it becomes the first letter of the subsequent pair. Conversely, when two distinct letters are paired, both characters have been consumed, requiring an increment of $2$ ($i \leftarrow i + 2$).
+
+% =========================================================================
+% 5. EXPERIMENTAL RESULTS AND VERIFICATION
+% =========================================================================
+\section{Experimental Results and Verification}
+
+To thoroughly validate the cryptographic correctness and operational reliability of the software, multiple test cases were executed.
+
+\subsection{Test Case 1: Standard Verification with Double Letters}
+\begin{itemize}
+    \item \textbf{Plaintext:} \texttt{"Hello World"}
+    \item \textbf{Secret Key:} \texttt{"abcdefgh"} (length $8 \ge 7$)
+    \item \textbf{Normalized Message:} \texttt{HELLOWORLD}
+    \item \textbf{Prepared Digraphs:} \texttt{(H, E), (L, X), (L, O), (W, O), (R, L), (D, X)}
+    \item \textbf{Generated Matrix ($6 \times 5$):}
+    \begin{equation*}
+    \mathcal{M} = \begin{bmatrix}
+    \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
+    \text{F} & \text{G} & \text{H} & \text{Ă} & \text{Â} \\
+    \text{I} & \text{Î} & \text{K} & \text{L} & \text{M} \\
+    \text{N} & \text{O} & \text{P} & \text{Q} & \text{R} \\
+    \text{S} & \text{Ș} & \text{T} & \text{Ț} & \text{U} \\
+    \text{V} & \text{W} & \text{X} & \text{Y} & \text{Z}
+    \end{bmatrix}
+    \end{equation*}
+\end{itemize}
+
+The actual terminal execution session is captured below:
+
+\begin{terminalwindow}
+Romanian Playfair Cipher
+Choose an option:
+1. Encrypt
+2. Decrypt
+3. Exit
+1
+Enter the message: 
+Hello World
+Enter key (min 7 chars): abcdefgh
+[      A      B      C      D      E  ]
+[      F      G      H      Ă      Â  ]
+[      I      Î      K      L      M  ]
+[      N      O      P      Q      R  ]
+[      S      Ș      T      Ț      U  ]
+[      V      W      X      Y      Z  ]
+Encrypted Message: ÂCKYÎQBȘQMCY
+
+Romanian Playfair Cipher
+Choose an option:
+1. Encrypt
+2. Decrypt
+3. Exit
+2
+Enter ciphertext (even length): ÂCKYÎQBȘQMCY
+Enter key (min 7 chars): abcdefgh
+[      A      B      C      D      E  ]
+[      F      G      H      Ă      Â  ]
+[      I      Î      K      L      M  ]
+[      N      O      P      Q      R  ]
+[      S      Ș      T      Ț      U  ]
+[      V      W      X      Y      Z  ]
+Decrypted Message: HELXLOWORLDX
+\end{terminalwindow}
+
+\textbf{Analysis:} The deciphered text \texttt{HELXLOWORLDX} perfectly matches the original message structure. The filler character \texttt{X} between \texttt{L} and \texttt{L} and the terminal padding \texttt{X} after \texttt{D} were cleanly recovered, demonstrating bidirectional mathematical consistency.
+
+\subsection{Test Case 2: Validation and Error Handling}
+The laboratory specification requires:
+\begin{enumerate}
+    \item Rejecting keys shorter than $7$ characters ($|K| < 7$).
+    \item Rejecting non-Romanian characters (digits, symbols) and suggesting the valid range (A-Z, Ă, Â, Î, Ș, Ț).
+    \item Rejecting odd-length ciphertexts during decryption.
+\end{enumerate}
+
+The terminal log below demonstrates the defensive validation loop:
+
+\begin{terminalwindow}
+Romanian Playfair Cipher
+Choose an option:
+1. Encrypt
+2. Decrypt
+3. Exit
+1
+Enter the message: 
+Test123
+Char '1' is not allowd, only (A-Z, Ă, Â, Î, Ș, Ț).
+Enter the message: 
+TEST
+Enter key (min 7 chars): short
+Key 'SHORT' is too short (5 chars). Min length is 7.
+Enter key (min 7 chars): CRIPTOGRAFIE
+[      C      R      I      P      T  ]
+[      O      G      A      F      E  ]
+[      Ă      Â      B      D      H  ]
+[      Î      K      L      M      N  ]
+[      Q      S      Ș      Ț      U  ]
+[      V      W      X      Y      Z  ]
+Encrypted Message: EHUR
+\end{terminalwindow}
+
+As demonstrated, improper user inputs are intercepted gracefully without application termination, guiding the user until compliant inputs are provided.
+
+% =========================================================================
+% 6. SOURCE CODE AND REPOSITORY
+% =========================================================================
+\section{Source Code and Repository}
+
+The complete source code and project configurations are hosted in the GitHub repository:
+\begin{center}
+    \large
+    \url{https://github.com/Vitalieww/CryptographyAndSecurityCourse/tree/main/lab_3}
+\end{center}
+
+\subsection{Build and Execution Instructions}
+To build and launch the application:
+\begin{lstlisting}[numbers=none,basicstyle=\small\ttfamily]
+# Clone the repository
+git clone https://github.com/Vitalieww/CryptographyAndSecurityCourse.git
+
+# Navigate to the Romanian Playfair Cipher project
+cd CryptographyAndSecurityCourse/lab_3/RomanianPlayfairCipher
+
+# Build the project using .NET CLI
+dotnet build
+
+# Launch the interactive console suite
+dotnet run
+\end{lstlisting}
+
+% =========================================================================
+% 7. CONCLUSION
+% =========================================================================
+\section{Conclusion}
+
+Through this laboratory work, the design, adaptation, and algorithmic mechanics of the \textbf{Playfair Cipher} for the Romanian language were systematically investigated and successfully implemented:
+
+\begin{enumerate}
+    \item \textbf{Alphabet Adaptation and Dimension Reconciliation:} The $31$-character Romanian alphabet was mapped to a compact $6 \times 5$ matrix by replacing $J$ with $I$. This preserved all linguistic diacritics (Ă, Â, Î, Ș, Ț) while ensuring exact grid occupancy without redundant filler cells.
+    \item \textbf{Digraphic Substitution Resilience:} By substituting pairs of characters rather than single symbols, the Playfair cipher flattens the frequency distribution. Natural language letter patterns are masked, preventing trivial single-letter frequency attacks.
+    \item \textbf{Defensive Software Design:} The implemented C\# solution guarantees data integrity through diacritic normalization, input validation loops, and robust modular arithmetic that eliminates negative index exceptions.
+    \item \textbf{Cryptographic Scope and Limitations:} While Playfair constitutes a marked security improvement over classical monoalphabetic substitution ciphers, it remains vulnerable to digraph frequency analysis and hill-climbing heuristics when large volumes of ciphertext are available. It serves as an intuitive pedagogical bridge connecting classical substitution to modern block cipher principles.
+\end{enumerate}
+
+\begin{thebibliography}{9}
+\bibitem{wheatstone1854}
+Charles Wheatstone, \textit{The Playfair Cipher System}, British Foreign Office Correspondence, 1854.
+\bibitem{kahn1996}
+David Kahn, \textit{The Codebreakers: The Story of Secret Writing}, Scribner, 1996.
+\bibitem{stallings2017}
+William Stallings, \textit{Cryptography and Network Security: Principles and Practice}, 7th Edition, Pearson, 2017.
+\end{thebibliography}
+
+\end{document}
