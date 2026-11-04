@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
 
@@ -9,7 +10,7 @@ namespace DesKeySchedule.Services
         public static string HexStringToBinaryString(string hexString)
         {
             string binaryString = string.Join(string.Empty,
-            hexString.Select(c => Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2))
+            hexString.Select(c => Convert.ToString(Convert.ToInt32(c.ToString(), 16), 2).PadLeft(4, '0'))
             );
             return binaryString;
         }
@@ -42,22 +43,24 @@ namespace DesKeySchedule.Services
             return string.Join("", bitCharArray);
         }
 
-        public static bool ValidateHexKey(string hexKey)
+        public static bool ValidateHexKey([NotNullWhen(true)] string? hexKey)
         {
-            if (hexKey.Length == 14)
+            if (string.IsNullOrWhiteSpace(hexKey) || hexKey.Length != 14)
             {
-                return true;
+                return false;
             }
-            return false;
+
+            return hexKey.All(char.IsAsciiHexDigit);
         }
 
-        public static bool ValidateBinaryKey(string binaryKey)
+        public static bool ValidateBinaryKey([NotNullWhen(true)] string? binaryKey)
         {
-            if (binaryKey.Length == 56)
+            if (string.IsNullOrWhiteSpace(binaryKey) || binaryKey.Length != 56)
             {
-                return true;
+                return false;
             }
-            return false;
+
+            return binaryKey.All(c => c is '0' or '1');
         }
     }
 }
