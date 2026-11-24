@@ -1,0 +1,726 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Packages ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[english]{babel}
+\usepackage{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage[many]{tcolorbox}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+% --- Page Setup ---
+\geometry{
+    top=2.5cm,
+    bottom=2.5cm,
+    left=2.5cm,
+    right=2.5cm
+}
+
+% --- Custom Colors ---
+\definecolor{primary}{RGB}{18, 52, 86}
+\definecolor{secondary}{RGB}{41, 128, 185}
+\definecolor{accent}{RGB}{231, 76, 60}
+\definecolor{codebg}{RGB}{247, 249, 250}
+\definecolor{codeframe}{RGB}{209, 213, 219}
+\definecolor{codegreen}{RGB}{39, 136, 60}
+\definecolor{codepurple}{RGB}{137, 89, 168}
+\definecolor{codegray}{RGB}{108, 117, 125}
+\definecolor{termbg}{RGB}{0, 0, 0}
+\definecolor{termfg}{RGB}{255, 255, 255}
+\definecolor{termgreen}{RGB}{80, 250, 123}
+\definecolor{termred}{RGB}{255, 85, 85}
+\definecolor{termyellow}{RGB}{241, 250, 140}
+\definecolor{termcyan}{RGB}{139, 233, 253}
+
+% --- Romanian Character Literate for Listings ---
+\lstset{
+    extendedchars=true,
+    literate=%
+        {ă}{{\u{a}}}1
+        {Ă}{{\u{A}}}1
+        {â}{{\^a}}1
+        {Â}{{\^A}}1
+        {î}{{\^\i}}1
+        {Î}{{\^I}}1
+        {ș}{{\c{s}}}1
+        {Ș}{{\c{S}}}1
+        {ț}{{\c{t}}}1
+        {Ț}{{\c{T}}}1
+        {ş}{{\c{s}}}1
+        {Ş}{{\c{S}}}1
+        {ţ}{{\c{t}}}1
+        {Ţ}{{\c{T}}}1
+}
+
+% --- Listings Setup ---
+\lstset{
+    language=[Sharp]C,
+    backgroundcolor=\color{codebg},
+    basicstyle=\small\ttfamily,
+    keywordstyle=\color{secondary}\bfseries,
+    stringstyle=\color{codegreen},
+    commentstyle=\color{codegray}\itshape,
+    numberstyle=\tiny\color{codegray},
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    tabsize=4,
+    showspaces=false,
+    showstringspaces=false,
+    breaklines=true,
+    breakatwhitespace=true,
+    frame=single,
+    rulecolor=\color{codeframe},
+    captionpos=b,
+    keepspaces=true
+}
+
+\tcbuselibrary{listings,skins}
+
+% --- Terminal Box Setup ---
+\newtcblisting{terminalwindow}[1][]{%
+    enhanced,
+    colback=black,
+    colframe=black,
+    arc=2.5mm,
+    boxrule=1pt,
+    title={\textcolor{termred}{$\bullet$}\;\textcolor{termyellow}{$\bullet$}\;\textcolor{termgreen}{$\bullet$}\quad \textsf{\bfseries Console Terminal Session}},
+    fonttitle=\small\sffamily\bfseries,
+    coltitle=white,
+    attach boxed title to top left={yshift=-2mm, xshift=4mm},
+    boxed title style={colback=gray!15!black, arc=1.5mm, boxrule=0.5pt},
+    listing only,
+    listing options={
+        backgroundcolor=\color{black},
+        basicstyle=\small\ttfamily\color{white},
+        frame=none,
+        numbers=none,
+        breaklines=true,
+        tabsize=4,
+        showspaces=false,
+        showstringspaces=false,
+        extendedchars=true,
+        literate=%
+            {ă}{{\u{a}}}1
+            {Ă}{{\u{A}}}1
+            {â}{{\^a}}1
+            {Â}{{\^A}}1
+            {î}{{\^\i}}1
+            {Î}{{\^I}}1
+            {ș}{{\c{s}}}1
+            {Ș}{{\c{S}}}1
+            {ț}{{\c{t}}}1
+            {Ț}{{\c{T}}}1
+            {ş}{{\c{s}}}1
+            {Ş}{{\c{S}}}1
+            {ţ}{{\c{t}}}1
+            {Ţ}{{\c{T}}}1
+    },
+    #1
+}
+
+% --- Hyperlink Setup ---
+\hypersetup{
+    colorlinks=true,
+    linkcolor=primary,
+    citecolor=secondary,
+    urlcolor=secondary
+}
+
+% --- Headers & Footers ---
+\pagestyle{fancy}
+\fancyhf{}
+\setlength{\headheight}{15pt}
+\addtolength{\topmargin}{-3pt}
+\fancyhead[L]{\small\textsf{Laboratory Work No. 5 --- Cryptography \& Information Security}}
+\fancyhead[R]{\small\textsf{Vitalie Vasilean}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+
+% --- Macros ---
+\newcommand{\studentgroup}{FAF-241}
+
+\begin{document}
+
+% =========================================================================
+% TITLE PAGE
+% =========================================================================
+\begin{titlepage}
+    \centering
+    {\large \textbf{TECHNICAL UNIVERSITY OF MOLDOVA}}\\[0.2cm]
+    {\large Faculty of Computers, Informatics and Microelectronics}\\[0.2cm]
+    {\large Department of Software Engineering and Automatics}\\[0.8cm]
+
+    \includegraphics[width=3.5cm]{figures/utm_logo.png}\\[1.2cm]
+
+    {\Large \textbf{LABORATORY WORK NO. 5}}\\[0.4cm]
+    {\LARGE \textbf{Public Key Infrastructure (PKI) and Digital Signature Algorithm (DSA)}}\\[0.2cm]
+    {\Large \textbf{Internal Certified Authority, Certificate Lifecycle \& Digital Signatures}}\\[0.4cm]
+    {\large Course: Cryptography and Information Security}\\[2.5cm]
+
+    \begin{minipage}{0.45\textwidth}
+        \flushleft
+        \textbf{Author:}\\
+        Vitalie \textsc{Vasilean}\\
+        Student of group: \studentgroup\\[0.3cm]
+        \textbf{GitHub Repository:}\\
+        \href{https://github.com/Vitalieww/CryptographyAndSecurityCourse/tree/main/lab_5}{\small\ttfamily Vitalieww/.../lab\_5}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+        \flushright
+        \textbf{Verified by:}\\
+        Lecturer / Supervisor\\
+        Maia Zaica
+    \end{minipage}
+
+    \vfill
+    {\large Chișinău --- 2026}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+% =========================================================================
+% 1. INTRODUCTION AND OBJECTIVES
+% =========================================================================
+\section{Introduction and Laboratory Objectives}
+
+In contemporary distributed environments and network security architectures, establishing cryptographic trust between mutually unacquainted parties represents one of the most critical challenges. Symmetric cryptographic primitives (e.g., AES, DES) require a secure pre-shared secret key between sender and receiver. However, distributing secret keys across an untrusted network at scale suffers from the classic key distribution dilemma ($O(n^2)$ shared keys for $n$ participants).
+
+\textbf{Asymmetric Cryptography (Public-Key Cryptography)} resolves this dilemma by equipping each entity with a key pair consisting of a \textit{private key} $K_{\text{priv}}$ (kept strictly confidential) and a \textit{public key} $K_{\text{pub}}$ (published openly). Nevertheless, public-key distribution introduces a new vulnerability: the \textbf{Man-in-the-Middle (MitM) impersonation attack}, wherein an adversary substitutes their own public key in place of the legitimate party's public key. 
+
+To solve this binding problem, a \textbf{Public Key Infrastructure (PKI)} establishes a trusted hierarchy governed by a \textbf{Certificate Authority (CA)}. The CA digitally certifies the association between an entity's identity and its public key through a standardized \textbf{X.509 Public Key Certificate}. Furthermore, the PKI manages the complete lifecycle of cryptographic credentials: key generation, certificate signing requests (CSRs), issuance, validation, and certificate revocation via \textbf{Certificate Revocation Lists (CRLs)}.
+
+\subsection{Laboratory Requirements}
+In accordance with the laboratory assignment conditions:
+\begin{enumerate}
+    \item \textbf{Internal PKI Initialization:} Establish an internal PKI using the OpenSSL cryptographic suite. Generate a root private key and initialize a Root Certificate Authority (CA) with a self-signed X.509 certificate.
+    \item \textbf{CA Specifications:} The CA root private key must use the \textbf{RSA algorithm} with a key dimension of \textbf{4096 bits}. The self-signed root certificate must have an expiration validity of \textbf{10 years (3650 days)}.
+    \item \textbf{User Key \& Certificate Issuance:} The system must issue user RSA private keys with a minimum dimension of \textbf{2048 bits} and issue user certificates signed by the internal CA with a validity of \textbf{365 days (1 year)}.
+    \item \textbf{Certificate Revocation:} The system must maintain a revocation database, allow revoking user credentials with RFC-compliant revocation reason codes, and generate/update an X.509 Certificate Revocation List (CRL).
+    \item \textbf{Digital Signature Generation (Signing):} Any user/entity possessing a valid private key and certificate must be able to sign arbitrary documents or binary files, producing an authentic digital signature.
+    \item \textbf{Signature Verification and PKI Chain Audit:} The system must verify the digital signature, confirming both the mathematical integrity of the document (authenticity and non-repudiation) and the validity of the signer's certificate against the Root CA and the CRL (detecting expired or revoked certificates).
+    \item \textbf{Implementation:} Provide a complete, object-oriented C\# (.NET 10.0) application with an interactive console menu, complemented by cross-platform automation scripts (PowerShell and Bash).
+\end{enumerate}
+
+% =========================================================================
+% 2. THEORETICAL FOUNDATIONS
+% =========================================================================
+\section{Theoretical Foundations}
+
+\subsection{Public Key Infrastructure (PKI) Architecture}
+A Public Key Infrastructure comprises hardware, software, policies, and cryptographic standards designed to create, manage, distribute, use, store, and revoke digital certificates. The core components of a PKI include:
+\begin{itemize}
+    \item \textbf{Root Certificate Authority (CA):} The highest anchor of trust in the PKI. The Root CA possesses a self-signed certificate where the issuer Distinguished Name (DN) equals the subject DN. Its private key signs subordinate certificates and CRLs.
+    \item \textbf{End-Entity (User / Server):} Subjects that hold certified public keys and use the corresponding private keys for digital signatures, authentication, or encryption.
+    \item \textbf{Certificate Repository \& Database:} An index tracking all issued, expired, and revoked serial numbers (\texttt{index.txt}).
+    \item \textbf{Certificate Revocation List (CRL):} A time-stamped list signed by the CA containing the serial numbers of revoked certificates and the dates of revocation.
+\end{itemize}
+
+\subsection{Mathematical Foundations of RSA and Digital Signatures}
+The RSA cryptosystem (developed by Rivest, Shamir, and Adleman in 1977) relies on the computational intractability of the \textbf{Integer Factorization Problem}. 
+
+\subsubsection{Key Generation}
+\begin{enumerate}
+    \item Select two large, distinct prime numbers $p$ and $q$ uniformly at random.
+    \item Compute the RSA modulus $n = p \cdot q$. The bit-length of $n$ defines the key dimension ($|n| \in \{2048, 4096\}$).
+    \item Compute Euler's totient function:
+    \begin{equation}
+        \phi(n) = (p - 1)(q - 1)
+    \end{equation}
+    \item Choose a public exponent $e$ such that $1 < e < \phi(n)$ and $\gcd(e, \phi(n)) = 1$. The standard industry choice is Fermat's prime $e = 65537 = 2^{16} + 1$.
+    \item Compute the private exponent $d$ via the Modular Multiplicative Inverse:
+    \begin{equation}
+        d \equiv e^{-1} \pmod{\phi(n)} \iff e \cdot d \equiv 1 \pmod{\phi(n)}
+    \end{equation}
+    \item The public key is $(e, n)$, and the private key is $(d, n)$ (or $(d, p, q, d_p, d_q, q_{\text{inv}})$ for Chinese Remainder Theorem acceleration).
+\end{enumerate}
+
+\subsubsection{Digital Signature Algorithm using RSA (RSA-SHA256)}
+A digital signature provides three fundamental security properties:
+\begin{itemize}
+    \item \textbf{Integrity:} The document has not been altered in transit.
+    \item \textbf{Authenticity:} The signature could only have been generated by the possessor of the private key.
+    \item \textbf{Non-Repudiation:} The signer cannot dispute having created the signature.
+\end{itemize}
+
+Given an arbitrary document or file $M$, the signature pipeline operates as follows:
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=codebg,colframe=codeframe,arc=2mm,width=0.95\textwidth]
+\textbf{Signing Phase:}
+\begin{equation}
+    h = H(M) = \text{SHA-256}(M)
+\end{equation}
+\begin{equation}
+    S = h^d \pmod{n}
+\end{equation}
+\textbf{Verification Phase:}
+\begin{equation}
+    h' = H(M) = \text{SHA-256}(M)
+\end{equation}
+\begin{equation}
+    h'' = S^e \pmod{n}
+\end{equation}
+\begin{equation}
+    \text{If } h' \equiv h'' \pmod{n} \implies \text{Signature is VALID; otherwise REJECTED.}
+\end{equation}
+\end{tcolorbox}
+\caption{Mathematical workflow of RSA digital signature generation and verification.}
+\label{fig:rsa_workflow}
+\end{figure}
+
+By signing the 256-bit cryptographic digest $H(M)$ rather than the raw message $M$, performance is independent of document size, and homomorphic signature forgery attacks are prevented.
+
+\subsection{Structure of X.509 v3 Certificates}
+Standardized by the ITU-T and IETF (RFC 5280), an X.509 version 3 certificate comprises:
+\begin{itemize}
+    \item \textbf{Version:} Typically v3 (value \texttt{0x2}).
+    \item \textbf{Serial Number:} Unique integer assigned by the CA for each certificate.
+    \item \textbf{Signature Algorithm:} Cryptographic algorithm used by the CA to sign the certificate (e.g., \texttt{sha256WithRSAEncryption}).
+    \item \textbf{Issuer:} Distinguished Name (DN) of the Certificate Authority.
+    \item \textbf{Validity Period:} Bounded by \texttt{notBefore} and \texttt{notAfter} UTC timestamps.
+    \item \textbf{Subject:} Distinguished Name of the certificate owner (Country, Organization, Common Name).
+    \item \textbf{Subject Public Key Info:} The public key algorithm and raw key modulus/exponent.
+    \item \textbf{X.509 v3 Extensions:}
+    \begin{itemize}
+        \item \texttt{Basic Constraints}: Identifies if the certificate is a CA (\texttt{CA:TRUE}) or end-entity (\texttt{CA:FALSE}).
+        \item \texttt{Key Usage}: Cryptographically restricts permissible operations (\texttt{digitalSignature, keyEncipherment, cRLSign, keyCertSign}).
+        \item \texttt{Subject Key Identifier (SKI) \& Authority Key Identifier (AKI)}: Hashes ensuring unequivocal certificate chaining.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Certificate Revocation and CRL Verification}
+A certificate is assumed valid until its expiration date unless explicitly revoked. Revocation is vital when:
+\begin{enumerate}
+    \item The user's private key is compromised or suspected of compromise (\texttt{keyCompromise}).
+    \item The user leaves the organization or changes affiliation (\texttt{affiliationChanged}).
+    \item The certificate is superseded by a newer credential (\texttt{superseded}).
+    \item The operations are ceased (\texttt{cessationOfOperation}).
+\end{enumerate}
+
+A \textbf{Certificate Revocation List (CRL)} is signed by the CA and published to a distribution point. When a client verifies a digital signature, it must execute a two-step validation:
+\begin{equation}
+    \text{Trust Audit} = \text{CryptographicSigVerify}(M, S, K_{\text{pub}}) \;\land\; \text{CertChainVerify}(\text{Cert}, \text{CA}) \;\land\; (\text{Serial} \notin \text{CRL})
+\end{equation}
+
+% =========================================================================
+% 3. ARCHITECTURE AND IMPLEMENTATION
+% =========================================================================
+\section{System Architecture and Implementation}
+
+The software architecture is engineered in C\# (.NET 10.0) following clean domain separation, complemented by an OpenSSL configuration template and shell scripts.
+
+\begin{figure}[h!]
+\centering
+\begin{tcolorbox}[colback=white,colframe=primary,arc=2mm,title=\textbf{Lab 5 Project Workspace Layout}]
+\begin{verbatim}
+lab_5/
+|-- OpenSslPkiManager/                (C# .NET 10.0 Console Suite)
+|   |-- Models/
+|   |   |-- CertificateRecord.cs      (CA Database entity)
+|   |   |-- PkiUser.cs                (User identity and keypaths)
+|   |   |-- VerificationResult.cs     (Audit outcome model)
+|   |-- Services/
+|   |   |-- OpenSslCommandRunner.cs   (Process execution wrapper)
+|   |   |-- PkiService.cs             (CA, CSR, signing & CRL engine)
+|   |-- UI/
+|   |   |-- ConsoleMenu.cs            (Interactive terminal menu)
+|   |   |-- DisplayFormatter.cs       (Tables, audit cards, ANSI colors)
+|   |-- Program.cs                    (Application entry point)
+|-- scripts/                          (Automation scripts)
+|   |-- openssl.cnf.template          (X.509 v3 configuration)
+|   |-- pki_manager.ps1               (PowerShell CLI implementation)
+|   |-- pki_manager.sh                (POSIX Bash CLI implementation)
+|-- report/                           (LaTeX documentation & figures)
+\end{verbatim}
+\end{tcolorbox}
+\caption{Modular organization of the Lab 5 implementation.}
+\end{figure}
+
+\subsection{OpenSSL Configuration Architecture (\texttt{openssl.cnf})}
+To govern certificate issuance, signing constraints, and CRL generation, a dedicated OpenSSL configuration file is generated dynamically with normalized paths. Critical sections include:
+
+\begin{lstlisting}[language=bash,caption={Extract of the internal PKI configuration}]
+[ ca ]
+default_ca = CA_default
+
+[ CA_default ]
+dir               = ./lab_5/pki_store/ca
+certs             = $dir/certs
+crl_dir           = $dir/crl
+new_certs_dir     = $dir/newcerts
+database          = $dir/index.txt
+serial            = $dir/serial
+private_key       = $dir/private/ca.key
+certificate       = $dir/certs/ca.crt
+crlnumber         = $dir/crlnumber
+crl               = $dir/crl/ca.crl
+crl_extensions    = crl_ext
+default_crl_days  = 30
+default_md        = sha256
+policy            = policy_loose
+
+[ v3_ca ]
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints       = critical, CA:true
+keyUsage               = critical, digitalSignature, cRLSign, keyCertSign
+
+[ usr_cert ]
+basicConstraints       = CA:FALSE
+subjectKeyIdentifier   = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage               = critical, nonRepudiation, digitalSignature, keyEncipherment
+extendedKeyUsage       = clientAuth, emailProtection
+\end{lstlisting}
+
+\subsection{Process Invocation Engine (\texttt{OpenSslCommandRunner.cs})}
+Communication with the OpenSSL runtime binary is abstracted into a robust, high-performance process wrapper capturing \texttt{StandardOutput}, \texttt{StandardError}, and synchronous exit codes without console window overhead:
+
+\begin{lstlisting}
+public static CommandResult Run(string arguments, string? workingDir = null)
+{
+    var startInfo = new ProcessStartInfo
+    {
+        FileName = "openssl",
+        Arguments = arguments,
+        RedirectStandardOutput = true,
+        RedirectStandardError = true,
+        UseShellExecute = false,
+        CreateNoWindow = true
+    };
+    if (!string.IsNullOrEmpty(workingDir))
+        startInfo.WorkingDirectory = workingDir;
+
+    using var process = new Process { StartInfo = startInfo };
+    process.Start();
+
+    string stdout = process.StandardOutput.ReadToEnd();
+    string stderr = process.StandardError.ReadToEnd();
+    process.WaitForExit();
+
+    return new CommandResult {
+        ExitCode = process.ExitCode,
+        StandardOutput = stdout,
+        StandardError = stderr
+    };
+}
+\end{lstlisting}
+
+\subsection{PKI Service Core (\texttt{PkiService.cs})}
+
+\subsubsection{1. Root CA Initialization (4096-bit RSA, 3650 Days)}
+The Root CA generates an RSA 4096-bit private key and self-signs its X.509 certificate with a 10-year validity:
+\begin{lstlisting}
+// 1. Generate 4096-bit RSA Private Key
+string genKeyArgs = $"genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:{keySize} -out \"{CaKeyPath}\"";
+OpenSslCommandRunner.Run(genKeyArgs);
+
+// 2. Generate Self-Signed Root Certificate (3650 days)
+string subject = $"/C={country}/ST=Chisinau/L=Chisinau/O={org}/OU={orgUnit}/CN={commonName}";
+string reqArgs = $"req -config \"{ConfigPath}\" -key \"{CaKeyPath}\" -new -x509 -days {days} -sha256 -extensions v3_ca -out \"{CaCertPath}\" -subj \"{subject}\"";
+OpenSslCommandRunner.Run(reqArgs);
+
+// 3. Initialize CRL
+string crlArgs = $"ca -config \"{ConfigPath}\" -gencrl -out \"{CaCrlPath}\"";
+OpenSslCommandRunner.Run(crlArgs);
+\end{lstlisting}
+
+\subsubsection{2. User Key and Certificate Issuance (2048+ bit RSA, 365 Days)}
+When an entity requests credentials, the system enforces the minimum 2048-bit constraint, creates a CSR, and signs the certificate using the internal CA:
+\begin{lstlisting}
+// 1. Generate User Private Key (>= 2048-bit)
+string genKeyArgs = $"genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:{keySize} -out \"{keyPath}\"";
+OpenSslCommandRunner.Run(genKeyArgs);
+
+// 2. Generate Certificate Signing Request (CSR)
+string subject = $"/C={country}/ST=Chisinau/O={org}/OU={orgUnit}/CN={username}";
+string csrArgs = $"req -config \"{ConfigPath}\" -new -key \"{keyPath}\" -out \"{csrPath}\" -subj \"{subject}\"";
+OpenSslCommandRunner.Run(csrArgs);
+
+// 3. CA Signs User Certificate (365 days)
+string signArgs = $"ca -config \"{ConfigPath}\" -batch -extensions usr_cert -days {days} -notext -md sha256 -in \"{csrPath}\" -out \"{certPath}\"";
+OpenSslCommandRunner.Run(signArgs);
+\end{lstlisting}
+
+\subsubsection{3. Revocation and CRL Update}
+Revoking a certificate transitions its status in \texttt{index.txt} to \texttt{'R'} and regenerates \texttt{ca.crl}:
+\begin{lstlisting}
+string revokeArgs = $"ca -config \"{ConfigPath}\" -revoke \"{certPath}\" -crl_reason {reason}";
+OpenSslCommandRunner.Run(revokeArgs);
+
+string crlArgs = $"ca -config \"{ConfigPath}\" -gencrl -out \"{CaCrlPath}\"";
+OpenSslCommandRunner.Run(crlArgs);
+\end{lstlisting}
+
+\subsubsection{4. Digital Document Signing}
+A user signs a document using their private key and the SHA-256 digest:
+\begin{lstlisting}
+string signArgs = $"dgst -sha256 -sign \"{keyPath}\" -out \"{sigPath}\" \"{documentPath}\"";
+OpenSslCommandRunner.Run(signArgs);
+\end{lstlisting}
+
+\subsubsection{5. Comprehensive Verification Pipeline}
+Verification performs a dual cryptographic and trust chain audit:
+\begin{lstlisting}
+// Step 1: Cryptographic verification with extracted public key
+string pubKeyRes = OpenSslCommandRunner.Run($"x509 -in \"{certificatePath}\" -pubkey -noout");
+File.WriteAllText(tempPubKey, pubKeyRes.StandardOutput);
+
+var verifySigRes = OpenSslCommandRunner.Run(
+    $"dgst -sha256 -verify \"{tempPubKey}\" -signature \"{signaturePath}\" \"{documentPath}\"");
+bool isSigValid = verifySigRes.Success && verifySigRes.StandardOutput.Contains("Verified OK");
+
+// Step 2: PKI Trust Chain and CRL Revocation Check
+string verifyCertArgs = $"verify -CAfile \"{CaCertPath}\" -CRLfile \"{CaCrlPath}\" -crl_check \"{certificatePath}\"";
+var verifyCertRes = OpenSslCommandRunner.Run(verifyCertArgs);
+
+bool isRevoked = verifyCertRes.CombinedOutput.Contains("certificate revoked");
+bool isChainValid = verifyCertRes.Success && verifyCertRes.CombinedOutput.Contains(": OK");
+\end{lstlisting}
+
+% =========================================================================
+% 4. EXPERIMENTAL RESULTS AND VERIFICATION
+% =========================================================================
+\section{Empirical Verification and Results}
+
+To rigorously demonstrate compliance with all laboratory requirements, an automated end-to-end verification suite was executed. The test execution exercises every lifecycle stage: Root CA creation, user certificate generation, document signing, tampering detection, revocation, and CRL verification.
+
+\subsection{Automated Demonstration Execution Session}
+
+\begin{terminalwindow}
+================================================================================
+  AUTOMATED END-TO-END PKI DEMONSTRATION & SECURITY AUDIT
+================================================================================
+[*] This automated suite proves all laboratory requirements:
+[*]   1. CA initialization with 4096-bit RSA & 10 years validity
+[*]   2. User issuance with 2048-bit RSA & 365 days validity
+[*]   3. Document signing and valid verification
+[*]   4. Tampering attack detection (document altered)
+[*]   5. User certificate revocation and CRL verification
+
+[*] --> [Test 1] Initializing Root CA (4096-bit RSA, 3650 days)...
+[+] SUCCESS: Root CA initialized successfully.
+[*] --> [Test 2] Issuing Certificate for 'alice' (2048-bit RSA, 365 days)...
+[+] SUCCESS: Alice certificate issued.
+[*] --> [Test 3] Alice signs 'financial_contract.txt'...
+[+] SUCCESS: Document signed: .../financial_contract.txt.sig
+
+[*] --> [Test 4] Verifying Alice's signature on authentic document...
+================================================================================
+  DIGITAL SIGNATURE & PKI VERIFICATION AUDIT
+================================================================================
+Signer Subject:  subject=C=MD, ST=Chisinau, O=Technical University of Moldova, OU=FAF, CN=alice
+
+1. Cryptographic Signature (RSA-SHA256): [ VALID ]
+   -> Cryptographic signature is mathematically VALID (Document integrity and authorship verified).
+2. PKI Certificate Trust & Revocation: [ TRUSTED & ACTIVE ]
+   -> Certificate is VALID and TRUSTED (Issued by Root CA, unexpired, and not revoked).
+
+--------------------------------------------------------------------------------
+OVERALL SECURITY VERDICT: AUTHENTIC, UNMODIFIED, AND FULLY TRUSTED
+================================================================================
+
+[*] --> [Test 5] Simulating Man-in-the-Middle Attack (tampering document to 500,000 EUR)...
+================================================================================
+  DIGITAL SIGNATURE & PKI VERIFICATION AUDIT
+================================================================================
+Signer Subject:  subject=C=MD, ST=Chisinau, O=Technical University of Moldova, OU=FAF, CN=alice
+
+1. Cryptographic Signature (RSA-SHA256): [ FAILED ]
+   -> Cryptographic signature verification FAILED (Document was modified or signature does not match).
+2. PKI Certificate Trust & Revocation: [ TRUSTED & ACTIVE ]
+   -> Certificate is VALID and TRUSTED (Issued by Root CA, unexpired, and not revoked).
+
+--------------------------------------------------------------------------------
+OVERALL SECURITY VERDICT: REJECTED (Document tampered or signature invalid)!
+================================================================================
+
+[*] --> [Test 6] Revoking Alice's certificate due to keyCompromise...
+[+] SUCCESS: Alice's certificate revoked and CRL updated.
+
+[*] --> [Test 7] Verifying Alice's signature AFTER revocation (CRL enforcement)...
+================================================================================
+  DIGITAL SIGNATURE & PKI VERIFICATION AUDIT
+================================================================================
+Signer Subject:  subject=C=MD, ST=Chisinau, O=Technical University of Moldova, OU=FAF, CN=alice
+
+1. Cryptographic Signature (RSA-SHA256): [ VALID ]
+   -> Cryptographic signature is mathematically VALID (Document integrity and authorship verified).
+2. PKI Certificate Trust & Revocation: [ REVOKED ]
+   -> Certificate is REVOKED by the Certified Authority (Present in CRL).
+
+--------------------------------------------------------------------------------
+OVERALL SECURITY VERDICT: SIGNATURE MATCHES, BUT SIGNER CERTIFICATE HAS BEEN REVOKED BY CA!
+================================================================================
+\end{terminalwindow}
+
+\subsection{X.509 Certificate and CRL Inspection}
+Verification of parameters was confirmed through raw OpenSSL inspection commands.
+
+\subsubsection{Root CA Certificate Inspection (\texttt{ca.crt})}
+\begin{terminalwindow}
+$ openssl x509 -in lab_5/pki_store/ca/certs/ca.crt -noout -text
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 5040713735747683771 (0x45f4358ce9f8c5bb)
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=MD, ST=Chisinau, L=Chisinau, O=Technical University of Moldova, OU=FAF, CN=UTM-FAF-Root-CA
+        Validity
+            Not Before: Nov 23 16:31:47 2026 GMT
+            Not After : Nov 20 16:31:47 2036 GMT
+        Subject: C=MD, ST=Chisinau, L=Chisinau, O=Technical University of Moldova, OU=FAF, CN=UTM-FAF-Root-CA
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (4096 bit)
+        X509v3 extensions:
+            X509v3 Basic Constraints: critical
+                CA:TRUE
+            X509v3 Key Usage: critical
+                Digital Signature, Certificate Sign, CRL Sign
+\end{terminalwindow}
+\textit{Result:} Confirms RSA 4096-bit public key, \texttt{CA:TRUE}, and exact 10-year validity window (2026--2036).
+
+\subsubsection{User Certificate Inspection (\texttt{alice.crt})}
+\begin{terminalwindow}
+$ openssl x509 -in lab_5/pki_store/users/alice/alice.crt -noout -text
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 4096 (0x1000)
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=MD, ST=Chisinau, L=Chisinau, O=Technical University of Moldova, OU=FAF, CN=UTM-FAF-Root-CA
+        Validity
+            Not Before: Nov 23 16:31:48 2026 GMT
+            Not After : Nov 23 16:31:48 2027 GMT
+        Subject: C=MD, ST=Chisinau, O=Technical University of Moldova, OU=FAF, CN=alice
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Key Usage: critical
+                Digital Signature, Non Repudiation, Key Encipherment
+\end{terminalwindow}
+\textit{Result:} Confirms RSA 2048-bit key, \texttt{CA:FALSE}, \texttt{nonRepudiation}, and 365 days validity (2026--2027).
+
+\subsubsection{Certificate Revocation List Inspection (\texttt{ca.crl})}
+\begin{terminalwindow}
+$ openssl crl -in lab_5/pki_store/ca/crl/ca.crl -noout -text
+Certificate Revocation List (CRL):
+    Version 2 (0x1)
+    Signature Algorithm: sha256WithRSAEncryption
+    Issuer: C=MD, ST=Chisinau, L=Chisinau, O=Technical University of Moldova, OU=FAF, CN=UTM-FAF-Root-CA
+    Last Update: Nov 23 16:31:48 2026 GMT
+    Next Update: Dec 23 16:31:48 2026 GMT
+Revoked Certificates:
+    Serial Number: 1000
+        Revocation Date: Nov 23 16:31:48 2026 GMT
+        CRL entry extensions:
+            X509v3 CRL Reason Code: 
+                Key Compromise
+\end{terminalwindow}
+\textit{Result:} Demonstrates accurate propagation of revoked serial \texttt{0x1000} with reason code \textit{Key Compromise}.
+
+% =========================================================================
+% 5. SECURITY ANALYSIS AND DISCUSSION
+% =========================================================================
+\section{Security Analysis and Discussion}
+
+\subsection{Cryptographic Key Dimension Comparison: 4096-bit vs 2048-bit RSA}
+NIST Special Publication 800-57 Part 1 Rev. 5 establishes security strength equivalences for asymmetric key sizes:
+\begin{itemize}
+    \item \textbf{RSA 2048-bit:} Provides approximately 112 bits of symmetric equivalent security. It is deemed acceptable for short-to-medium term end-entity certificates (e.g., 1-year TLS/user certificates), protecting against state-of-the-art Number Field Sieve (GNFS) factorization attacks while maintaining acceptable signing latency.
+    \item \textbf{RSA 4096-bit:} Provides approximately 128--140 bits of symmetric equivalent security. Given that a Root CA operates as the single root of trust for an extended period (10 to 20 years), its key must withstand cryptanalytic advances throughout its entire active lifespan. The computational overhead of 4096-bit operations is concentrated on the CA, which signs certificates infrequently compared to high-frequency end-entity operations.
+\end{itemize}
+
+\subsection{Tamper-Evident Security of SHA-256 Hashing}
+The digital signature scheme binds the RSA private key to the SHA-256 digest of the file. The security rests upon three fundamental hash properties:
+\begin{enumerate}
+    \item \textbf{Pre-image Resistance:} Given $h = \text{SHA-256}(M)$, it is computationally infeasible ($\mathcal{O}(2^{256})$ operations) to determine $M$.
+    \item \textbf{Second Pre-image Resistance:} Given a document $M_1$, it is computationally infeasible to find $M_2 \neq M_1$ such that $\text{SHA-256}(M_1) = \text{SHA-256}(M_2)$. This guarantees that an attacker cannot substitute a fraudulent financial contract for a signed legitimate contract.
+    \item \textbf{Collision Resistance:} Finding any arbitrary pair $(M_1, M_2)$ with matching hashes requires $\mathcal{O}(2^{128})$ operations by the Birthday Paradox, far beyond existing computational capabilities.
+\end{enumerate}
+
+\subsection{CRL vs. OCSP (Online Certificate Status Protocol)}
+In this laboratory, certificate revocation was enforced using X.509 Certificate Revocation Lists (CRLs). In enterprise production environments, two mechanisms exist for revocation checking:
+\begin{table}[h!]
+\centering
+\caption{Comparative analysis between CRL and OCSP revocation mechanisms.}
+\label{tab:crl_vs_ocsp}
+\begin{tabularx}{\textwidth}{lXX}
+    \toprule
+    \textbf{Metric} & \textbf{Certificate Revocation List (CRL)} & \textbf{Online Certificate Status Protocol (OCSP)} \\
+    \midrule
+    \textbf{Transport Format} & Complete signed list of revoked serials & Lightweight request/response query per serial \\
+    \textbf{Bandwidth Overhead} & Grows linearly with total revoked certificates & Constant, minimal packet size \\
+    \textbf{Latency / Freshness} & Cached until \texttt{NextUpdate}; potential latency window & Real-time status lookup directly from responder \\
+    \textbf{Privacy Concern} & Client downloads full list; CA learns no user traffic & Responder discovers which certificates client queries \\
+    \textbf{Offline Capability} & Supports offline validation if CRL is cached & Requires active network connection to OCSP server \\
+    \bottomrule
+\end{tabularx}
+\end{table}
+
+% =========================================================================
+% 6. CONCLUSIONS
+% =========================================================================
+\section{Conclusions}
+
+This laboratory work successfully developed and demonstrated an internal \textbf{Public Key Infrastructure (PKI)} and \textbf{Digital Signature System} in strict compliance with the assigned laboratory requirements:
+\begin{enumerate}
+    \item \textbf{Internal CA Establishment:} Built and initialized a self-signed Root Certificate Authority using a 4096-bit RSA private key and a 10-year (3650 days) certificate validity window with standard X.509 v3 CA constraints (\texttt{CA:TRUE}, \texttt{cRLSign}, \texttt{keyCertSign}).
+    \item \textbf{Entity Lifecycle Management:} Created a modular subsystem capable of generating minimum 2048-bit RSA keys, assembling RFC-compliant Certificate Signing Requests (CSRs), and issuing 365-day end-entity certificates.
+    \item \textbf{Revocation Enforcement:} Implemented an index-backed CA revocation workflow with standard reason codes and automated generation of Certificate Revocation Lists (CRLs).
+    \item \textbf{Digital Signature and Verification Suite:} Implemented a dual-phase verification engine that validates both mathematical signature integrity via RSA-SHA256 and PKI trust chain authenticity with strict CRL revocation checking.
+    \item \textbf{Empirical Security Validation:} Subjected the system to hostile tampering attacks (detecting modified document payloads) and credential compromise simulations (detecting revoked certificates), verifying all theoretical guarantees.
+\end{enumerate}
+
+The implementation was constructed in C\# (.NET 10.0) following clean architecture principles, and reinforced by automated PowerShell and Bash management scripts, establishing a reliable foundation for asymmetric cryptography and public-key certification.
+
+% =========================================================================
+% REFERENCES
+% =========================================================================
+\begin{thebibliography}{9}
+\bibitem{rfc5280}
+D. Cooper, S. Santesson, S. Farrell, S. Boeyen, R. Housley, W. Polk,
+\textit{Internet X.509 Public Key Infrastructure Certificate and Certificate Revocation List (CRL) Profile},
+RFC 5280, RFC Editor, May 2008.
+
+\bibitem{fips186}
+National Institute of Standards and Technology (NIST),
+\textit{Digital Signature Standard (DSS)},
+Federal Information Processing Standards Publication (FIPS PUB 186-4), July 2013.
+
+\bibitem{sp80057}
+E. Barker,
+\textit{Recommendation for Key Management: Part 1 -- General},
+NIST Special Publication 800-57 Part 1 Revision 5, May 2020.
+
+\bibitem{openssl}
+OpenSSL Project Authors,
+\textit{OpenSSL Cryptography and SSL/TLS Toolkit Documentation (v3.4)},
+\url{https://www.openssl.org/docs/}, 2024.
+
+\bibitem{medium_ref}
+Y. Bilgiç,
+\textit{Create Self-Signed Certificates and Keys with OpenSSL},
+Medium Publication,
+\url{https://medium.com/@yakuphanbilgic3/create-self-signed-certificates-and-keys-with-openssl-4064f9165ea3}, 2023.
+\end{thebibliography}
+
+\end{document}
